@@ -14,4 +14,3 @@ Wstępny opis:
 Opis elementów technicznych:
 ---------------
 >**Tip** Akapit będzie rozwijany wraz z rozwijaniem aplikacji.
-
