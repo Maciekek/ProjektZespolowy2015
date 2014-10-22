@@ -14,3 +14,30 @@ Wstępny opis:
 Opis elementów technicznych:
 ---------------
 >**Tip** Akapit będzie rozwijany wraz z rozwijaniem aplikacji.
+
+
+Branche i rodzaje tasków 
+-----------
+Generalnie każdy task powinien być realizowany poprzez taska w issueTrackerze gitowy.
+W zależności od rodzaju zadania mamy różne rodzaje
+*  Develop - rodzaj zadania, które polega na rozwijanu jakiejś części aplikacji. Np. dodanie nowej funkcjonalości
+*  Bug - wszelkie sprawy związane ze zgłaszaniem bugów. 
+*  Refacor - wszelkie sprawy związane z poprawianiem jakości aplikacji, bez dodatkowych funkcjonalności
+
+**Branche**
+
+Każda realizacja taska powinna być realizowana w osobnym branchu. 
+Konwencja nazewnicza:
+
+```sh
+    develop/NumerTaska
+    Przykład: dev/#3
+    
+    bug/NumerTaska
+    Przykład: bug/#3
+    
+    refactor/NumerTaska
+    Przykład: ref/#3
+```
+
+Pozwoli nam to na filtrowanie tasków i utrzymanie porządku pomiędzy mergami a taskami w issue trackerze.
