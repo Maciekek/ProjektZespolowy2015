@@ -59,8 +59,7 @@ Po ściągnieciu najnowszej wersji aplikacji, aby uruchomić projekt webowy loka
 To polecenie wykona poniższe czynności:
 ```sh
     npm install -g grunt-cli            -instaluje grunt-cli
-    npm install -g nodemon              -nodemon, jest to programik, który                                                restartuje serwer po każdej zmianie serwer                                         aktualizując zmiany
-    
+    npm install -g nodemon              -nodemon, jest to programik, który restartuje serwer po każdej zmianie serwer aktualizując zmiany
     bower install                       -ściaga takie paczki jak angularJS itp.
     npm install                         -ściąga wszyskie zależności
     nodemon serwer.js                   -uruchamia serwer.
@@ -77,7 +76,7 @@ Do projektu dodałem narzędzie [Grunt](http://gruntjs.com/)
 Jest to narzędzie do automatyzacji pewnych tasktów. Będzie to rozwijane wraz z potrzebami. 
 Póki są dodane 2 rzeczy:
 ```sh
-    grunt watch         obserwuje pliki *.js po każdej zmiane sprawdza poprawności                          semantyki (jshit)
+    grunt watch         obserwuje pliki *.js po każdej zmiane sprawdza poprawności semantyki (jshit)
     grunt htmlangular   obserwuje pliki *.html i działa jak watch
 ```
 
