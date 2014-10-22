@@ -1,3 +1,5 @@
+[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+
 **MoneyGiver**
 ===================
 Aplikacja na zajęcia "Projekt Zespołowy 2014/2015"
@@ -41,3 +43,67 @@ Konwencja nazewnicza:
 ```
 
 Pozwoli nam to na filtrowanie tasków i utrzymanie porządku pomiędzy mergami a taskami w issue trackerze.
+
+
+------------------------
+
+
+Informacje użytkowe w aplikacji webowej
+--------------
+
+Po ściągnieciu najnowszej wersji aplikacji, aby uruchomić projekt webowy lokalnie wystarczy wpisać w konsoli:
+```sh
+    npm start
+```
+
+To polecenie wykona poniższe czynności:
+```sh
+    npm install -g grunt-cli            -instaluje grunt-cli
+    npm install -g nodemon              -nodemon, jest to programik, który restartuje serwer po każdej zmianie serwer aktualizując zmiany
+    bower install                       -ściaga takie paczki jak angularJS itp.
+    npm install                         -ściąga wszyskie zależności
+    nodemon serwer.js                   -uruchamia serwer.
+```
+Taka sekwencja zawsze zajmuję chwilę czasu. Dlatego jak przynajmniej raz puści się komedę npm start, to potem szybciej robi się to za pomocą 
+```sh
+    nodemon serwer.js
+```
+
+--------------
+
+**Grunt**
+Do projektu dodałem narzędzie [Grunt](http://gruntjs.com/)
+Jest to narzędzie do automatyzacji pewnych tasktów. Będzie to rozwijane wraz z potrzebami. 
+Póki są dodane 2 rzeczy:
+```sh
+    grunt watch         obserwuje pliki *.js po każdej zmiane sprawdza poprawności semantyki (jshit)
+    grunt htmlangular   obserwuje pliki *.html i działa jak watch
+```
+
+Nardzędzie Grunt odpala się z konsoli poleceniem:
+```sh
+    grunt
+```
+Od tego momenty pliki .js i .html będą po każdej zmianie sprawdzane.
+
+------------------
+
+
+Scripts
+---------------------
+
+W folderze 
+```sh
+    ./scripts
+```
+zdajduję się mały skrypcik o nazwie *droplet*.
+Służy on do łączenia z wirtualną maszyną. Wystarczy go odpalić w ten sposób
+```sh
+    droplet.bat NazwaUżytkownika
+```
+i następnie swoje hasło. Ułatwia to podłączenie do VM bez konieczności pamiętania IP
+
+Później dodam też skrypty na bazę danych.
+
+
+
