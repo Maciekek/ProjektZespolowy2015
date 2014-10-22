@@ -1,3 +1,5 @@
+[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+
 **MoneyGiver**
 ===================
 Aplikacja na zajęcia "Projekt Zespołowy 2014/2015"
@@ -41,3 +43,5 @@ Konwencja nazewnicza:
 ```
 
 Pozwoli nam to na filtrowanie tasków i utrzymanie porządku pomiędzy mergami a taskami w issue trackerze.
+
+

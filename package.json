@@ -35,6 +35,6 @@
     "preinstall": "npm install -g nodemon",
     "postinstall": "bower install",
     "prestart": "npm install",
-    "start":"node serwer.js"
+    "start":"nodemon serwer.js"
   }
 }
