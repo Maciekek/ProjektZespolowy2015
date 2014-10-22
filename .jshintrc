@@ -1,0 +1,33 @@
+{
+  "globalstrict": true,
+  "curly": false,
+    "eqeqeq": true,
+    "immed": true,
+    "latedef": true,
+    "newcap": true,
+    "noarg": true,
+    "sub": true,
+    "undef": true,
+    "boss": true,
+    "eqnull": true,
+    "node": true,
+    "immed": true,
+    "latedef": true,
+    "newcap": true,
+    "noempty": true,
+    "quotmark": false,
+    "maxcomplexity": 6,
+    
+  "globals": {
+    "angular": false,
+
+    "browser": false,
+    "element": false,
+    "by": false,
+
+    "describe": false,
+    "beforeEach": false,
+    "it": false,
+    "expect": false
+  }
+}
