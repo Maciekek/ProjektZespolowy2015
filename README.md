@@ -31,13 +31,13 @@ Konwencja nazewnicza:
 
 ```sh
     develop/NumerTaska
-    Przykład: develop/#3
+    Przykład: dev/#3
     
     bug/NumerTaska
     Przykład: bug/#3
     
     refactor/NumerTaska
-    Przykład: refactor/#3
+    Przykład: ref/#3
 ```
 
 Pozwoli nam to na filtrowanie tasków i utrzymanie porządku pomiędzy mergami a taskami w issue trackerze.
