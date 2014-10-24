@@ -1,10 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
 	<meta charset="UTF-8">
 	<title>MoneyGiver</title>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js">    </script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js">    </script>
+	   <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" type="text/css" href="css/mystyle.css">
 </head>
 <body>
-	Welcome
+	<div class="container">
+	<nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Rozwiń nawigację</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a  class="navbar-brand" id="brand">
+        <img class=".hidden-xs" id="malelogo" class="img-circle" src="img/logo_mg_male.png">  
+        MoneyGiver</a>
+    </div>
+ 
+    <!-- Grupowanie elementów menu w celu lepszego wyświetlania na urządzeniach moblinych -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <form class="navbar-form navbar-right" role="search">
+        <div class="form-group has-success">
+          <input type="text" class="form-control" data-ng-model="login" placeholder="Login">
+          <input type="text" class="form-control" data-ng-model="pass" placeholder="Hasło">
+        </div>
+        <button type="submit" class="btn btn-primary" data-ng-click="login()">Zaloguj</button>
+      </form>
+    </div>
+  </div>
+</nav>
+</div>
+
+<div class="container">
+<div class="jumbotron" id="jumb">
+
+  <h1 class="text-center"><img src="img/logo_mg_duze.png" class="img-circle"> Witaj w serwisie Money Giver</h1>
+  <p class="text-center">Money Giver to aplikacja, która w przejrzysty sposób wesprze kontrole nad Twoimi finansami.</p>
+  <p class="text-center">Zdażyło Ci się kiedyś, że nie wiedziałeś na co wydałeś swoje pieniądze?</p>
+  <p class="text-center">A może chciałbyś zacisnąć pasa i zaoszczędzić troche kasy?</p>
+  <p class="text-center">Pomożemy Ci w tym !</p>
+  <p class="text-center"><a class="btn btn-primary btn-lg" role="button">Zarejestruj się już teraz!</a></p>
+</div>
+</div>
 </body>
 </html>
