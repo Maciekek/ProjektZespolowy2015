@@ -19,7 +19,12 @@ app.listen(port);
 console.log("app listen on port " + port);
 
 
-app.get('*', function(req, res) {
+app.get('/', function(req, res) {
 	console.log("test");
 	res.sendfile("./app/index.html");
+});
+
+app.get('/createAccount', function(req, res) {
+	console.log("test");
+	res.sendfile("./app/partials/createAccount.html");
 });
