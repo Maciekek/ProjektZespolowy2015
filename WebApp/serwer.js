@@ -6,6 +6,7 @@ var bodyParser = require("body-parser");
 
 var port = 80;
 
+app.use(express.static(__dirname + '/app'));
 app.use(bodyParser.urlencoded({
 	'extended': 'true'
 }));
@@ -22,4 +23,3 @@ app.get('*', function(req, res) {
 	console.log("test");
 	res.sendfile("./app/index.html");
 });
-
