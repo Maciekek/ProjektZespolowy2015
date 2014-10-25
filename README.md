@@ -120,6 +120,16 @@ Testy te służą do testowania zachowań front-endu.
 ```
 
 
-**Unit**
+**Unit serwer**
 
-Soon
+Serwer również powinien być testowany. 
+Testy serwera znajdują się w 
+```sh
+    /WebApp/test/serwer-unit/*.spec.js
+```
+
+Odpalanie testów z konsoli: 
+```sh
+    grunt test
+```
+
