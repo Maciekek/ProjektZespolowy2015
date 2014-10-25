@@ -3,6 +3,15 @@
 var express = require('express');
 var app = express();
 var bodyParser = require("body-parser");
+var mongo = require('mongodb');
+var monk = require('monk');
+var db = monk('localhost:27017/moneyGiver', function (err) {
+    if (err) {
+        throw err;
+    } else {
+        console.log("successfully connected to the database");
+    }
+});
 
 var port = 80;
 
