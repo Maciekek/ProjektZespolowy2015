@@ -107,3 +107,19 @@ Później dodam też skrypty na bazę danych.
 
 
 
+
+Testy
+---------------
+
+
+**Protractor**
+Testy te służą do testowania zachowań front-endu. 
+
+```sh
+    npm run protractor
+```
+
+
+**Unit**
+
+Soon
