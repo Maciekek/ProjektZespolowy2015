@@ -1,4 +1,4 @@
-[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)  [![Build Status](https://travis-ci.org/Maciekek/ProjektZespolowy2015.svg?branch=master)](https://travis-ci.org/Maciekek/ProjektZespolowy2015)
 
 **MoneyGiver**
 ===================
@@ -132,4 +132,5 @@ Odpalanie testów z konsoli:
 ```sh
     grunt test
 ```
+
 
