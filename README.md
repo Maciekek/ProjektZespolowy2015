@@ -133,3 +133,4 @@ Odpalanie testów z konsoli:
     grunt test
 ```
 
+
