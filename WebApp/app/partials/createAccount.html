@@ -1,1 +1,44 @@
-<p>Create Account</p>
+<h2 class="text-center">Rejestracja zajmię tylko kilka sekund!</h2>
+            <div class="center-block col-md-4" style="float: none;">
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label for="inputEmail" class="col-sm-2 control-label">Login</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" id="inputEmail" data-ng-model="login" placeholder="Wybierz login">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword" class="col-sm-2 control-label">Hasło</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" data-ng-model="pass"  id="inputPassword" placeholder="Wpisz swoje hasło">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary">Zarejestruj</button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+
+    <!-- Popup, który pojawi się jeśli podany login już istnieje -->
+<div class="modal fade" id="myModal" tabindex="-1" ng-show="OccupiedLogin" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Zamknij</span></button>
+        <h2 class="modal-title text-center" id="myModalLabel">Uwaga, niepoprawny login!</h2>
+      </div>
+      <div class="modal-body">
+        <p class="text-center">Niestety login, który wybrałeś jest już zajęty, spróbuj innego</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Zamknij</button>
+      </div>
+    </div>
+  </div>
+</div>
+
