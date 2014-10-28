@@ -16,7 +16,7 @@ exports.checkDbConnection = function (err) {
 
 var db = monk('localhost:27017/moneyGiver', exports.checkDbConnection());
 
-var port = 80;
+var port = 3000;
 
 app.use(express.static(__dirname + '/app'));
 app.use(bodyParser.urlencoded({
