@@ -4,7 +4,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require("body-parser");
 
-var port = 80;
+var port = 3000;
 
 app.use(express.static(__dirname + '/app'));
 app.use(bodyParser.urlencoded({
