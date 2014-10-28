@@ -28,3 +28,10 @@ app.get('/createAccount', function(req, res) {
 	console.log("test");
 	res.sendfile("./app/partials/createAccount.html");
 });
+
+app.post('/userCredentials', function(req,res){
+	var json = {"userCredentials":{}};
+	json["userCredentials"] =  {"login":"admin", "password":"admin"};
+
+	res.json(json);
+});
