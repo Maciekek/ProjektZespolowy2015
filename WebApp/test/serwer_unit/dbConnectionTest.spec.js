@@ -8,3 +8,11 @@ describe("database mongodb connection", function () {
         done();
     });
 });
+
+describe("database mongodb connection - check result if error", function () {
+    it("connected to db failure", function (done) {
+        var err = new Error("Database connection error");
+        expect(serwer.checkDbConnection(err)).toThrow(new Error(err));
+        done();
+    });
+});
