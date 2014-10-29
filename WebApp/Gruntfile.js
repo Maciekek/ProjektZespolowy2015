@@ -15,7 +15,7 @@ module.exports = function(grunt) {
 		},
 		watch: {
 			all: {
-				files: ['./serwer.js', JS_DIR + '*.js'],
+				files: ['Gruntfile.js', "serwer.js", "app/js/*.js"],
 				tasks: ['jshint'],
 				options: {
 					livereload: true
@@ -44,6 +44,7 @@ module.exports = function(grunt) {
 	});
 
 
+
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-html-angular-validate');
@@ -52,5 +53,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('default', ['jshint','htmlangular']);
 	grunt.registerTask('all', ['jshint', 'htmlangular']);
 	grunt.registerTask('test', ['jshint', 'jasmine_node']);
+
+
 
 };
