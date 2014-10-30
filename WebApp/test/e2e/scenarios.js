@@ -27,4 +27,12 @@ describe('MoneyGiver', function() {
 			expect(url.split('#')[1]).toBe('/createAccount');
 		});
 	});
+
+	it('should redirect from / to /createAccount and show Rejestracja zajmię tylko kilka sekund', function(){
+		browser.get('/');
+		$('#createAccountBtn').click();
+		expect(element(by.id('rejestr')).getText()).toEqual('Rejestracja zajmię tylko kilka sekund!');
+	});
+
+
 });
