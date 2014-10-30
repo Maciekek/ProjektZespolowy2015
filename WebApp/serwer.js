@@ -3,8 +3,12 @@
 var express = require('express');
 var app = express();
 var bodyParser = require("body-parser");
-
+var mongo = require('mongodb');
+var monk = require('monk');
+var dbManager = require('./database/dbManager.js');
 var port = 3000;
+
+mongo.connect('mongodb://localhost:27017/moneyGiver', dbManager.dbConnectionHandler);
 
 app.use(express.static(__dirname + '/app'));
 app.use(bodyParser.urlencoded({
