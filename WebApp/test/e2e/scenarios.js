@@ -36,3 +36,51 @@ describe('MoneyGiver', function() {
 
 
 });
+
+describe('create new account test suite', function() {
+	var ptor;
+	var loginRandom = Math.random();
+
+	beforeEach(function() {
+		ptor = protractor.getInstance();
+	});
+
+	it('create new account', function() {
+		browser.get('/');
+		$('#createAccountBtn').click();
+
+		var login = ptor.findElement(protractor.By.id('inputEmail'));
+		var pass = ptor.findElement(protractor.By.id('inputPassword'));
+
+		login.sendKeys("test" + loginRandom);
+		pass.sendKeys("testPass");
+
+		$('#registerButton').click();
+
+		browser.getLocationAbsUrl().then(function(url) {
+			expect(url.split('#')[1]).toBe('/');
+		});
+
+
+	});
+	it('create new account but with extisting login', function() {
+		browser.get('/');
+		$('#createAccountBtn').click();
+
+		var login = ptor.findElement(protractor.By.id('inputEmail'));
+		var pass = ptor.findElement(protractor.By.id('inputPassword'));
+
+		login.sendKeys("test" + loginRandom);
+		pass.sendKeys("testPass");
+
+		$('#registerButton').click();
+
+		browser.getLocationAbsUrl().then(function(url) {
+			expect(url.split('#')[1]).toBe('/createAccount');
+		});
+
+		expect($('#ifOccupiedLogin').isDisplayed()).toBeTruthy();
+
+	})
+
+})

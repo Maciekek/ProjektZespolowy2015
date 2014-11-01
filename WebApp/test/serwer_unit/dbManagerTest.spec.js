@@ -1,4 +1,5 @@
 var dbManager = require('../../database/dbManager');
+var Q = require('q');
 
 describe("database mongodb connection", function() {
     it("connected to db", function(done) {
@@ -15,4 +16,7 @@ describe("database mongodb connection", function() {
         expect(res).toEqual(err);
         done();
     });
+
+
 });
+
