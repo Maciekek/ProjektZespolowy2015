@@ -4,7 +4,8 @@
 
 var moneyGiverApp = angular.module('moneyGiverApp', [
 	'ngRoute',
-	'moneyGiverAppControllers'
+	'moneyGiverAppControllers',
+    //'moneyGiverAppServices'
 ]);
 
 moneyGiverApp.config(['$routeProvider',
@@ -16,10 +17,11 @@ moneyGiverApp.config(['$routeProvider',
 		}).
 		when('/createAccount', {
 			templateUrl: 'partials/createAccount.html',
-			controller: 'MainBoxController'
+			controller: 'CreateAccountController',
+            //service: 'CreateAccountService'
 		}).
 		otherwise({
-			redirectTo: '/error',
+			redirectTo: '/error'
 		});
 	}
 ]);
