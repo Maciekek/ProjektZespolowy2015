@@ -4,7 +4,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.moneygiver.communication.Post;
+import com.moneygiver.communication.HttpRequest;
 
 /**
  * Created by Szymon on 2014-11-02.
@@ -15,7 +15,7 @@ public class LoginExecutor {
     private AutoCompleteTextView loginTW;
     private EditText passwordET;
 
-    private Post post;
+    private HttpRequest HttpRequest;
 
     public LoginExecutor(Object response, Object login, Object password) {
         responseTW = (TextView) response;
@@ -28,7 +28,7 @@ public class LoginExecutor {
         String json = "{\"userCredentials\": {\"login\": \"" +loginTW.getText().toString() +
                 "\", \"password\":\"" + passwordET.getText().toString() +"\"}}";
 
-        post = new Post("http://178.62.111.179/userCredentials", json, responseTW);
-        post.execute();
+        HttpRequest = new HttpRequest("http://178.62.111.179/userCredentials", json, responseTW);
+        HttpRequest.Post();
     }
 }

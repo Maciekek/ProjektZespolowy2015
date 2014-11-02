@@ -15,19 +15,19 @@ import java.net.URL;
 /**
  * Created by Szymon on 2014-10-29.
  */
-public class Post {
+public class HttpRequest {
     private String url;
     private TextView responseTW;
     private String JSONObject;
     private NewThreadExecutor thr;
 
-    public Post(String url, String JSONObject, TextView responseTW) {
+    public HttpRequest(String url, String JSONObject, TextView responseTW) {
         this.url = url;
         this.JSONObject = JSONObject;
         this.responseTW = responseTW;
     }
 
-    public void execute() {
+    public void Post() {
         try {
             URL object = new URL(url);
             HttpURLConnection con = (HttpURLConnection) object.openConnection();
