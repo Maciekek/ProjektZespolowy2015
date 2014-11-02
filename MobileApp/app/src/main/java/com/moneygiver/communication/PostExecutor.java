@@ -18,15 +18,30 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class  PostExecutor implements Runnable {
     public String result = "dupa";
+    private String url;
+    private String login;
+    private String password;
 
-    public String execute(String passedUrl, String message) throws IOException {
+    public PostExecutor(String url, String login, String password) {
+        this.url = url;
+        this.login = login;
+        this.password = password;
+    }
+
+    private String makeJSON(String login, String password) {
+
+        return "{\"userCredentials\": {\"login\": \"" +login +"\", \"password\":\"" + password +"\"}}";
+    }
+
+    public String execute() throws IOException {
 //        String urlParameters = json.toString();
 
 //        https://myconfluence.atlassian.net/wiki/rest/api/content/
 //        String encoding = new String(Base64.encodeBase64(credentials.getBytes("UTF-8")),
 //                "UTF-8");
-        String url = passedUrl;
-        URL object=new URL(url);
+
+        String json = makeJSON(login, password);
+        URL object=new URL("http://178.62.111.179/userCredentials");
         HttpURLConnection con = (HttpURLConnection) object.openConnection();
         con.setDoOutput(true);
         con.setDoInput(true);
@@ -35,7 +50,7 @@ public class  PostExecutor implements Runnable {
         con.setRequestMethod("POST");
 //        con.setRequestProperty("Authorization", "Basic " + encoding);
         OutputStreamWriter wr= new OutputStreamWriter(con.getOutputStream());
-        wr.write(message);
+        wr.write(json);
         wr.flush();
         //display what returns the POST request
         StringBuilder sb = new StringBuilder();
@@ -58,7 +73,7 @@ public class  PostExecutor implements Runnable {
     @Override
     public void run() {
         try {
-         result = execute("http://178.62.111.179/userCredentials", "");
+         result = "Wysłano: "+makeJSON(login, password)+ "\n Odebrano: "+execute();
         } catch (Exception e) {
             e.printStackTrace();
         }

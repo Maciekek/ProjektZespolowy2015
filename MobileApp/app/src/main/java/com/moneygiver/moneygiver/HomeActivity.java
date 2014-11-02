@@ -5,18 +5,20 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.MenuItem;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.moneygiver.communication.PostExecutor;
-
-import java.io.IOException;
 
 
 public class HomeActivity extends Activity {
 
     private Button testButton;
     private TextView tw;
+    private AutoCompleteTextView loginTW;
+    private EditText passwordET;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +27,12 @@ public class HomeActivity extends Activity {
     }
 PostExecutor pe;
     public void buttonOnClick(View v) {
-        tw = (TextView) findViewById(R.id.textView2);
-        pe = new PostExecutor();
+        tw = (TextView) findViewById(R.id.responseTextView);
+        loginTW = (AutoCompleteTextView) findViewById(R.id.logintw);
+        passwordET = (EditText) findViewById(R.id.passwordet);
+
+        pe = new PostExecutor("http://178.62.111.179/userCredentials", loginTW.getText().toString(),
+                passwordET.getText().toString());
         Thread t = new Thread(pe);
         t.start();
 
@@ -35,7 +41,7 @@ PostExecutor pe;
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        tw.setText("Serwer zwrócił:\n" + pe.result);
+        tw.setText(pe.result);
     }
 
     @Override
