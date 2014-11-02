@@ -16,7 +16,6 @@ import java.net.URL;
  * Created by Szymon on 2014-10-29.
  */
 public class Post {
-    public String result = "dupa";
     private String url;
     private TextView responseTW;
     private String JSONObject;
