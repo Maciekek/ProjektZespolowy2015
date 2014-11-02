@@ -16,10 +16,10 @@ moneyGiverApp.config(['$routeProvider',
 		}).
 		when('/createAccount', {
 			templateUrl: 'partials/createAccount.html',
-			controller: 'MainBoxController'
+			controller: 'createAccountController'
 		}).
 		otherwise({
-			redirectTo: '/error',
+			redirectTo: '/error'
 		});
 	}
 ]);

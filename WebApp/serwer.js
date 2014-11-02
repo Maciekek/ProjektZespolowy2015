@@ -6,6 +6,7 @@ var bodyParser = require("body-parser");
 var mongo = require('mongodb');
 var monk = require('monk');
 var dbManager = require('./database/dbManager.js');
+var Q = require('q');
 var port = 3000;
 
 mongo.connect('mongodb://localhost:27017/moneyGiver', dbManager.dbConnectionHandler);
@@ -38,4 +39,17 @@ app.post('/userCredentials', function(req,res){
 	json["userCredentials"] =  {"login":"admin", "password":"admin"};
 
 	res.json(json);
+});
+
+app.post('/registerNewUser', function(req, res) {
+	console.log(req.body.userName);
+	dbManager.checkIfUserLoginIsFree(req.body.userName).then(function() {
+		dbManager.createAccount(req.body.userName, req.body.pass).then(function() {
+			res.send(true);
+		});
+	}).
+	catch(function(error) {
+		res.send(false);
+
+	});
 });

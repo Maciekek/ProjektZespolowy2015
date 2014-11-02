@@ -15,17 +15,18 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-primary" data-ng-click="register()">Zarejestruj</button>
+                        <button  id="registerButton" type="submit" class="btn btn-primary" data-ng-click="register()">Zarejestruj</button>
+                        
 
                     </div>
                 </div>
             </form>
-        </div>
+            </div>
         </div>
     </div>
 
     <!-- Popup, który pojawi się jeśli podany login już istnieje -->
-<div class="modal fade" id="myModal" tabindex="-1" data-ng-show="OccupiedLogin" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div data-ng-hide="OccupiedLogin" id="ifOccupiedLogin" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -40,5 +41,3 @@
       </div>
     </div>
   </div>
-</div>
-
