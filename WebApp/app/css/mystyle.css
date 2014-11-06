@@ -21,3 +21,102 @@ nav{
 .modal-content{
 	background-color:#ecf0f1;
 }
+
+h2{
+	color: #ecf0f1;
+}
+
+h3{
+	color: #2c3e50;
+}
+
+body,html,.row-offcanvas {
+  height:100%;
+}
+
+
+#sidebar {
+  width: inherit;
+  min-width: 220px;
+  max-width: 220px;
+  background-color:#ecf0f1;
+  float: left;
+  height:100%;
+  position:relative;
+  overflow-y:auto;
+  overflow-x:hidden;
+}
+#main {
+  height:100%;
+  overflow:auto;
+   margin-left: 250px;
+   padding-top: 40px;
+   padding-bottom: 40px;
+   /*background-color: yellow;*/
+}
+
+@media screen and (max-width: 1500px) {
+#main{
+  margin-left: 100px;
+}
+}
+
+#main::-webkit-scrollbar { 
+    display: none; 
+}
+
+/*
+ * off Canvas sidebar
+ * --------------------------------------------------
+ */
+@media screen and (max-width: 768px) {
+  .row-offcanvas {
+    position: relative;
+    -webkit-transition: all 0.25s ease-out;
+    -moz-transition: all 0.25s ease-out;
+    transition: all 0.25s ease-out;
+    width:calc(100% + 220px);
+  }
+    
+  .row-offcanvas-left
+  {
+    left: -220px;
+  }
+
+  .row-offcanvas-left.active {
+    left: 0;
+  }
+
+  .sidebar-offcanvas {
+    position: absolute;
+    top: 0;
+  }
+}
+
+
+#right{
+    float: right;
+    width: 220px;
+    height: 100%;
+    background-color: #ecf0f1;
+
+}
+
+/*#lewy{
+ 	background-color: red;
+ 	color: white;
+}
+
+#prawy{
+ 	background-color: green;
+ 	color: white;
+}
+
+#srodek{
+	background-color: yellow;
+	color: white;
+}*/
+
+/*#rightSidebarItems{
+  margin-top:90%;
+}*/
