@@ -8,6 +8,16 @@ var monk = require('monk');
 var dbManager = require('./database/dbManager.js');
 var Q = require('q');
 var port = 3000;
+var socketIo = require('socket.io');
+var connect = require('connect');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var passportSocketIo = require('passport.socketio');
+var sessionStore = new connect.session.MemoryStore();
+var httpServer = require("http").createServer(app);
+var io = socketIo.listen(httpServer);
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 
 mongo.connect('mongodb://localhost:27017/moneyGiver', dbManager.dbConnectionHandler);
 
@@ -20,13 +30,117 @@ app.use(bodyParser.json({
 	type: 'application/vnd.api+json'
 }));
 
-app.listen(port);
+var sessionSecret = 'sessionSecret';
+var sessionKey = 'connect.sid';
+var server;
+var sio;
+
+
+function isAuthenticated(req, res, next) {
+	if (req.user) {
+		next();
+	} else {
+		res.redirect('/letLogin');
+	}
+}
+
+passport.serializeUser(function(user, done) {
+	done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+	done(null, obj);
+});
+
+passport.use(new LocalStrategy(
+	function(username, password, done) {
+		return dbManager.findUserPassword(username).then(function(userAccount) {
+			if (password === userAccount.password) {
+				console.log("Udane logowanie...");
+				return done(null, {
+					userName: userAccount.userName,
+					firstLogin: userAccount.firstLogin,
+				});
+			} else {
+				console.log("Złe dane");
+				return done(null, false);
+			}
+		});
+	}
+));
+app.use(bodyParser.urlencoded({
+	extended: true
+}));
+app.use(session({
+	store: sessionStore,
+	key: sessionKey,
+	secret: sessionSecret,
+	resave: true,
+    saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
 console.log("app listen on port " + port);
 
 
-app.get('/', function(req, res) {
-	console.log("test");
-	res.sendfile("./app/index.html");
+app.post('/login', function(req, res) {
+	console.log("/login");
+	passport.authenticate('local', function(err, user, info) {
+		if (!user) {
+			console.log("error złe dane");
+			return res.redirect('/main');
+		}
+		req.logIn(user, function(err) {
+			res.redirect('/mainPanel');
+		});
+		console.log(user);
+	})(req, res);
+});
+
+var onAuthorizeSuccess = function(data, accept) {
+	console.log('Udane połączenie z socket.io');
+	accept(null, true);
+};
+
+var onAuthorizeFail = function(data, message, error, accept) {
+	if (error) {
+		console.log("Nieudane logowanie");
+		throw new Error(message);
+	}
+	console.log('Nieudane połączenie z socket.io asdasd:', message);
+	accept(null, false);
+};
+
+io.set('authorization', passportSocketIo.authorize({
+	passport: passport,
+	cookieParser: cookieParser,
+	key: sessionKey,
+	secret: sessionSecret,
+	store: sessionStore,
+	success: onAuthorizeSuccess,
+	fail: onAuthorizeFail
+}));
+
+app.get('/', isAuthenticated, function(req, res, next) {
+	res.sendfile("./app/mainPanel.html");
+});
+
+app.get('/letLogin', function(req, res) {
+	res.sendfile("./app/loginPanel.html");
+});
+app.get('/dialog.html', function(req, res) {
+	res.sendfile("./app/js/dialog.html");
+});
+
+app.post('/saveFirstUserPreference', function(req, res) {
+	console.log(req.body);
+	dbManager.matchUserAcountAsUsed(req.user.userName);
+	res.send({});
+});
+
+app.get('/mainPanel', isAuthenticated, function(req, res) {
+	res.sendfile("./app/mainPanel.html");
 });
 
 app.get('/createAccount', function(req, res) {
@@ -34,11 +148,25 @@ app.get('/createAccount', function(req, res) {
 	res.sendfile("./app/partials/createAccount.html");
 });
 
-app.post('/userCredentials', function(req,res){
-	var json = {"userCredentials":{}};
-	json["userCredentials"] =  {"login":"admin", "password":"admin"};
+app.post('/userCredentials', function(req, res) {
+	var json = {
+		"userCredentials": {}
+	};
+	json["userCredentials"] = {
+		"login": "admin",
+		"password": "admin"
+	};
 
 	res.json(json);
+});
+
+app.get('/getUserData', function(req, res) {
+	res.json(req.user);
+});
+
+app.get('/logout', function(req, res) {
+	req.logout();
+	res.redirect('/');
 });
 
 app.post('/registerNewUser', function(req, res) {
@@ -52,4 +180,8 @@ app.post('/registerNewUser', function(req, res) {
 		res.send(false);
 
 	});
+});
+
+httpServer.listen(port, function() {
+	console.log('Express server listening on port ' + port);
 });

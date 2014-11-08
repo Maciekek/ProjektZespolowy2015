@@ -2,9 +2,9 @@
 
 /* Controllers */
 
-var moneyGiverApp = angular.module('moneyGiverAppControllers', []);
+var moneyGiverLoginApp = angular.module('moneyGiverLoginAppControllers', []);
 
-moneyGiverApp.controller('MainBoxController', ['$scope', '$http',
+moneyGiverLoginApp.controller('MainBoxController', ['$scope', '$http',
 	function($scope, $http) {
 		console.log("I`m MainBoxController");
 
@@ -12,7 +12,7 @@ moneyGiverApp.controller('MainBoxController', ['$scope', '$http',
 ]);
 
 
-moneyGiverApp.controller('createAccountController', ['$scope', '$location', '$http',
+moneyGiverLoginApp.controller('createAccountController', ['$scope', '$location', '$http',
 	function($scope, $location, $http) {
 		$scope.OccupiedLogin = true;
 

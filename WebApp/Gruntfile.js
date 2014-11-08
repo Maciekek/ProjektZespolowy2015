@@ -15,7 +15,7 @@ module.exports = function(grunt) {
 		},
 		watch: {
 			all: {
-				files: ['Gruntfile.js', "serwer.js", "app/js/*.js","test/e2e/*.js"],
+				files: ['Gruntfile.js', "serwer.js", "app/js/*.js","test/e2e/*.js", "database/dbManager.js"],
 				tasks: ['jshint'],
 				options: {
 					livereload: true
