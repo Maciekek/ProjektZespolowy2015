@@ -89,7 +89,7 @@ app.post('/login', function(req, res) {
 	passport.authenticate('local', function(err, user, info) {
 		if (!user) {
 			console.log("error złe dane");
-			return res.redirect('/main');
+			return res.redirect('/');
 		}
 		req.logIn(user, function(err) {
 			res.redirect('/mainPanel');

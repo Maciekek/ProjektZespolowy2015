@@ -128,6 +128,21 @@ describe('login & logout', function() {
 		});
 
 	});
+	it('should redirect to / after input wrong password ', function() {
+		browser.get('/');
+		var login = ptor.findElement(protractor.By.model('login'));
+		var pass = ptor.findElement(protractor.By.model('pass'));
+
+		login.sendKeys(loginRandom);
+		pass.sendKeys("WrongPassword");
+
+		$('#login').click();
+
+		browser.getLocationAbsUrl().then(function(url) {
+			expect(url.split('#')[1]).toBe('/');
+		});
+
+	});
 });
 
 describe('login check', function() {
@@ -224,6 +239,7 @@ describe('login check', function() {
 		$('#logout').click();
 
 	});
+
 });
 
 
