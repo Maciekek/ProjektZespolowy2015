@@ -99,7 +99,8 @@ body,html,.row-offcanvas {
     width: 220px;
     height: 100%;
     background-color: #ecf0f1;
-
+    overflow-y:auto;
+    overflow-x:hidden; 
 }
 
 /*#lewy{
