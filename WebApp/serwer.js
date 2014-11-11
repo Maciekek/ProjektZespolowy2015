@@ -65,6 +65,10 @@ passport.use(new LocalStrategy(
 				console.log("Złe dane");
 				return done(null, false);
 			}
+		}).catch(function(error) {
+			console.log("Złe dane");
+			return done(null, false);
+
 		});
 	}
 ));
@@ -108,7 +112,7 @@ var onAuthorizeFail = function(data, message, error, accept) {
 		console.log("Nieudane logowanie");
 		throw new Error(message);
 	}
-	console.log('Nieudane połączenie z socket.io asdasd:', message);
+	console.log('Nieudane połączenie z socket.io:', message);
 	accept(null, false);
 };
 
@@ -135,7 +139,7 @@ app.get('/dialog.html', function(req, res) {
 
 app.post('/saveFirstUserPreference', function(req, res) {
 	console.log(req.body);
-	dbManager.matchUserAcountAsUsed(req.user.userName);
+	dbManager.markUserAcountAsUsed(req.user.userName);
 	res.send({});
 });
 

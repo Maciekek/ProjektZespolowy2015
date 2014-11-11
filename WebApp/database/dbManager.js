@@ -91,7 +91,7 @@ var findUserPassword = function(username) {
 }
 exports.findUserPassword = findUserPassword;
 
-var matchUserAcountAsUsed = function(userName) {
+var markUserAcountAsUsed = function(userName) {
 	var collection = db.get('userAccount');
 	console.log(userName);
 
@@ -105,4 +105,4 @@ var matchUserAcountAsUsed = function(userName) {
 		})
 	});
 }
-exports.matchUserAcountAsUsed = matchUserAcountAsUsed;
+exports.markUserAcountAsUsed = markUserAcountAsUsed;

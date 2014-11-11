@@ -143,6 +143,23 @@ describe('login & logout', function() {
 		});
 
 	});
+	it('should redirect to / after input wrong login and password ', function() {
+		browser.get('/');
+		var login = ptor.findElement(protractor.By.model('login'));
+		var pass = ptor.findElement(protractor.By.model('pass'));
+
+		login.sendKeys("loginWrong");
+		pass.sendKeys("WrongPassword");
+
+		$('#login').click();
+
+		browser.getLocationAbsUrl().then(function(url) {
+			expect(url.split('#')[1]).toBe('/');
+		});
+
+	});
+
+
 });
 
 describe('login check', function() {
@@ -243,41 +260,3 @@ describe('login check', function() {
 });
 
 
-describe('create new account and check login', function() {
-	var ptor;
-	var loginRandom = Math.random();
-
-	beforeEach(function() {
-		ptor = protractor.getInstance();
-	});
-
-	it('create new account', function() {
-		browser.get('/');
-		$('#createAccountBtn').click();
-
-		var login = ptor.findElement(protractor.By.id('inputEmail'));
-		var pass = ptor.findElement(protractor.By.id('inputPassword'));
-
-		login.sendKeys("test" + loginRandom);
-		pass.sendKeys("testPass");
-
-		$('#registerButton').click();
-
-		var login = ptor.findElement(protractor.By.model('login'));
-		var pass = ptor.findElement(protractor.By.model('pass'));
-
-		login.sendKeys("test" + loginRandom);
-		pass.sendKeys("testPass");
-
-		$('#login').click();
-
-		browser.getLocationAbsUrl().then(function(url) {
-			console.log("URL " + url);
-			expect(url).toMatch('http:\/\/.*mainPanel#\/');
-		});
-
-	});
-
-
-
-})
