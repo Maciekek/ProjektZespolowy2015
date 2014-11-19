@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pl" ng-app="moneyGiverApp">
+    <head>
+        <meta charset="UTF-8">
+        <title>MoneyGiver</title>
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/jquery/jquery.min.js"></script>
+        <script src="bower_components/angular-route/angular-route.js"></script>
+        <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.11.2.js"></script>
+        <script src="js/mainPanelApp.js"></script>
+        <script src="js/mainAppControllers.js"></script>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js">
+        </script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="css/mystyle.css">
+    </head>
+    <body data-ng-controller="MainPanelController">
+        <div class="row-offcanvas row-offcanvas-left">
+            
+            <div id="sidebar" class="sidebar-offcanvas col-md-3" >
+                <div class="col-md-12">
+                    <img src="img/logo_mg_duze.png" class="img-rounded">
+                    <ul class="nav nav-pills nav-stacked">
+                        <span id="login">{{userLogin}}</span>
+                        <li class="active"><a href="#">Section</a></li>
+                        <li class="active"><a href="#">Section</a></li>
+                        <li class="active"><a href="#">Section</a></li>
+                        <li class="active"><a href="#">Section</a></li>
+                        <li class="active"><a href="#">Section</a></li>
+                        <li class="active"><a href="#">Section</a></li>
+                        <li class="active"><a href="#">Section</a></li>
+                        <form action="/logout">
+                            <input type="submit" class="btn btn-primary" value="Wyloguj" id="logout"/>
+                        </form>
+                    </ul>
+                </div>
+            </div>
+            
+            <div id="main" class="col-md-6">
+                <div data-ng-view></div>
+                <ul class="nav nav-pills nav-stacked">
+                    <div data-ng-view></div>
+                </ul>
+            </div>
+            <div id="right" class="sidebar-offcanvas col-md-3">
+                <div class="col-md-12">
+                    <img src="img/logo_mg_duze.png" class="img-rounded">
+                    <ul class="nav nav-pills nav-stacked" id="rightSidebarItems">
+                        <li class="active"><a href="#">Section</a></li>
+                        <li class="active"><a href="#">Section</a></li>
+                        <li class="active"><a href="#">Section</a></li>
+                        <li class="active"><a href="#">Section</a></li>
+                        <li class="active"><a href="#">Section</a></li>
+                        <li class="active"><a href="#">Section</a></li>
+                        <li class="active"><a href="#">Section</a></li>
+                        <li class="active"><a href="#">Section</a></li>
+                        <li class="active"><a href="#">Section</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+            </div><!--/row-offcanvas -->
+        </body>
+        
+    </html>

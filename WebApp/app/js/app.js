@@ -2,12 +2,14 @@
 
 /* App Module */
 
-var moneyGiverApp = angular.module('moneyGiverApp', [
+var moneyGiverLoginApp = angular.module('moneyGiverLoginApp', [
 	'ngRoute',
-	'moneyGiverAppControllers'
+	'moneyGiverLoginAppControllers'
 ]);
 
-moneyGiverApp.config(['$routeProvider',
+
+
+moneyGiverLoginApp.config(['$routeProvider',
 	function($routeProvider) {
 		$routeProvider.
 		when('/', {
