@@ -128,3 +128,19 @@ body,html,.row-offcanvas {
   padding-left: 15px;
 }
 
+
+.col-xs-2 {
+  width: 20%
+}
+
+.welcomeText {
+  font-size: 20px;
+  text-align: center;
+  margin-right: 2%;
+
+}
+
+.modal-content {
+  width: 110%;
+  padding: 20px;
+}

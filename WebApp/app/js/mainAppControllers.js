@@ -32,16 +32,31 @@ moneyGiverApp.controller('MainPanelController', ['$scope', '$http', '$modal',
 	}
 ]);
 
-moneyGiverApp.controller('ModalInstanceCtrl', function($scope, $http,$modalInstance) {
+moneyGiverApp.controller('ModalInstanceCtrl', function($scope, $http, $modalInstance) {
+	console.log("ModalInstanceCtrl");
+	$scope.monthlyObligations = [{}];
+
 	$scope.save = function() {
-		$http.post('/saveFirstUserPreference', {"test":"test"}).
-		success(function  (data) {
-			console.log(data);
-		});
+		// $http.post('/saveFirstUserPreference', {
+		// 	"test": "test"
+		// }).
+		// success(function(data) {
+		// 	console.log(data);
+		// });
+		var monthlyObligations = $scope.monthlyObligations;
+		console.log(monthlyObligations);
+
 		$modalInstance.close();
 	};
 
 	$scope.cancel = function() {
 		$modalInstance.dismiss();
 	};
+	$scope.addFields = function() {
+		
+		console.log("addFields");
+		$scope.monthlyObligations.push({});
+
+	};
+
 });

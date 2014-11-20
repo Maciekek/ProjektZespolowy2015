@@ -1,34 +1,44 @@
 <div id="dialog">
-	<div id="firstLoginForm">
-<form class="form-horizontal" role="form">
-  <div class="form-group">
-    <label for="firstLogMonthIncome" class="col-sm-2 control-label">Dochód </label>
-    <div class="col-xs-4">
-      <input type="text" class="form-control" id="firstLogMonthIncome" placeholder="Podaj dochód">
+  <div id="firstLoginForm">
+    <div>
+      <p class="welcomeText">Witaj w kreatorze Twojego osobistego konta! Aby móc Ci pomóc w organizacji Twoich finansów potrzebujemy kilku informacji o Twoich finansach.
+      </p>
     </div>
-  </div>
-  <div class="form-group">
-  	    <label for="monthlyObligationsname" class="col-sm-2 control-label">Nazwa zobowiązania</label>
-    <div class="col-xs-4">
-      <input type="text" class="form-control" id="monthlyObligationsname" placeholder="Nazwa">
+    <form class="form-horizontal" role="form">
+      <div class="form-group">
+        <div class="well">
+          <p class="">Na początek podaj przybliżoną wartość Twoich dochodów. Na podstawie tego będziemy mogli obliczać Twoje oszczędności i wydatki:</p>
+          
+          <input type="text" class="form-control" data-ng-model="monthlyIncoming" id="firstLogMonthIncome" placeholder="Podaj dochód">
+          
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="well">
+          <p class="">Drugą informacją jaką jest potrzebna to Twoje cykliczne miesięczne wydatki (np. samochód, czynsz za mieszkanie itp.)</p>
+          
+          
+          <div data-ng-repeat="monthlyObligation in monthlyObligations">
+            <p>Zobowiązanie nr.: {{$index+1}}</p>
+            <input type="text" data-ng-model="monthlyObligation.name" class="form-control" id="monthlyObligationsname" placeholder="Nazwa">
+            <input type="number" data-ng-model="monthlyObligation.value" class="form-control" id="monthlyObligations" placeholder="Kwota">
+            <p></p>
+            
+          </div>
+        </div>
+      </div>
     </div>
-    <label for="monthlyObligations" class="col-sm-2 control-label">Kwota </label>
-    <div class="col-xs-2">
-      <input type="text" class="form-control" id="monthlyObligations" placeholder="Kwota">
+    <div class="form-group">
+      
+      
     </div>
-      <div class="col-xs-1">
-		<button type="button" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+    <button type="button" class="btn btn-success btn-xs" data-ng-click="addFields()"><span class="glyphicon glyphicon-plus" aria-hidden="true" ></span></button>
+    <div class="form-group">
+      <div class="col-xs-11">
+        <button ng-click="cancel()" class="btn btn-primary pull-right">Zamknij</button>
+        <button ng-click="save()" class="btn btn-primary pull-right">Zapisz</button>
+      </div>
     </div>
-  </div>
-  <div class="form-group">
-    <div class="col-xs-11">
-      <button ng-click="cancel()" class="btn btn-primary pull-right">Zamknij</button>
-	<button ng-click="save()" class="btn btn-primary pull-right">Zapisz</button>
-    </div>
-  </div>
-</form>
+  </form>
 </div>
 </div>
-
-
-
