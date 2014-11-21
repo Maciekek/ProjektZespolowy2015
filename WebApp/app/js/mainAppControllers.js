@@ -23,6 +23,7 @@ moneyGiverApp.controller('MainPanelController', ['$scope', '$http', '$modal',
 		$http.get('/getUserData').
 		success(function(userAccount) {
 			$scope.userLogin = userAccount.userName;
+			console.log("incoming:  " +  userAccount.income );
 
 			if (userAccount.firstLogin) {
 				modalDialogSetting($modal);
@@ -37,12 +38,13 @@ moneyGiverApp.controller('ModalInstanceCtrl', function($scope, $http, $modalInst
 	$scope.monthlyObligations = [{}];
 
 	$scope.save = function() {
-		// $http.post('/saveFirstUserPreference', {
-		// 	"test": "test"
-		// }).
-		// success(function(data) {
-		// 	console.log(data);
-		// });
+		$http.post('/saveFirstUserPreference', {
+			"userIncome": $scope.monthlyIncoming,
+			"userMonthlyObligations": $scope.monthlyObligations
+		}).
+		success(function(data) {
+			console.log(data);
+		});
 		var monthlyObligations = $scope.monthlyObligations;
 		console.log(monthlyObligations);
 
