@@ -1,4 +1,5 @@
 'use strict';
+var Q = require('q');
 
 /* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
 
@@ -259,4 +260,56 @@ describe('login check', function() {
 
 });
 
+describe("should configure account ", function() {
+	var ptor;
+	var loginRandom = Math.random();
 
+	beforeEach(function() {
+		ptor = protractor.getInstance();
+		browser.get('/');
+		$('#createAccountBtn').click();
+
+		var login = ptor.findElement(protractor.By.id('inputEmail'));
+		var pass = ptor.findElement(protractor.By.id('inputPassword'));
+
+		login.sendKeys(loginRandom);
+		pass.sendKeys("testPass");
+
+		$('#registerButton').click();
+
+		var login = ptor.findElement(protractor.By.model('login'));
+		var pass = ptor.findElement(protractor.By.model('pass'));
+
+		login.sendKeys(loginRandom);
+		pass.sendKeys("testPass");
+
+		$('#login').click();
+
+
+	});
+
+	afterEach(function(){
+
+	})
+	it("Montly obligation should equal to 1", function() {
+
+		element.all(by.repeater('monthlyObligation in monthlyObligations')).then(function(arr) {
+			expect(arr.length).toEqual(1);
+		});
+		
+		$("#cancel").click();
+		$("#logout").click();
+		
+
+	})
+
+	it("Montly obligation should equal to 3", function() {
+		$("#addFields").click();
+		$("#addFields").click();
+
+		element.all(by.repeater('monthlyObligation in monthlyObligations')).then(function(arr) {
+			expect(arr.length).toEqual(3);
+		});
+	})
+
+})
