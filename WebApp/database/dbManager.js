@@ -6,7 +6,7 @@ var dbConnectionHandler = function(status) {
 	if (status) {
 		console.dir("Brak polaczenia z baza");
 	} else {
-		console.log('Połączenie z bazą udane!');	
+		console.log('Połączenie z bazą udane!');
 	}
 	return status;
 }
@@ -27,6 +27,7 @@ var getUserAccountByLogin = function(userName) {
 	});
 	return deferred.promise;
 }
+exports.getUserAccountByLogin = getUserAccountByLogin;
 
 var checkIfUserLoginIsFree = function(login) {
 	var deferred = Q.defer();
@@ -91,13 +92,15 @@ var findUserPassword = function(username) {
 }
 exports.findUserPassword = findUserPassword;
 
-var markUserAcountAsUsed = function(userName) {
+var saveUserFinanceConfiguration = function(userName, userIncome, userMonthlyObligations) {
 	var collection = db.get('userAccount');
-	console.log(userName);
 
 	getUserAccountByLogin(userName).then(function(userAccount) {
 		console.log(userAccount);
 		userAccount.firstLogin = false;
+		userAccount.income = userIncome;
+		userAccount.monthlyObligations = userMonthlyObligations;
+		console.log(userAccount);
 		collection.update({
 			"userName": userName
 		}, userAccount, function(err, item) {
@@ -105,4 +108,4 @@ var markUserAcountAsUsed = function(userName) {
 		})
 	});
 }
-exports.markUserAcountAsUsed = markUserAcountAsUsed;
+exports.saveUserFinanceConfiguration = saveUserFinanceConfiguration;
