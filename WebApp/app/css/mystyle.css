@@ -144,3 +144,7 @@ body,html,.row-offcanvas {
   width: 110%;
   padding: 20px;
 }
+
+#dialogButtons{
+  padding-bottom: 15px;
+}
