@@ -80,7 +80,7 @@ app.use(session({
 	key: sessionKey,
 	secret: sessionSecret,
 	resave: true,
-    saveUninitialized: true
+	saveUninitialized: true
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -139,7 +139,9 @@ app.get('/dialog.html', function(req, res) {
 
 app.post('/saveFirstUserPreference', function(req, res) {
 	console.log(req.body);
-	dbManager.markUserAcountAsUsed(req.user.userName);
+	dbManager.saveUserFinanceConfiguration(req.user.userName,
+		req.body.userIncome, req.body.userMonthlyObligations);
+
 	res.send({});
 });
 
@@ -165,7 +167,10 @@ app.post('/userCredentials', function(req, res) {
 });
 
 app.get('/getUserData', function(req, res) {
-	res.json(req.user);
+	dbManager.getUserAccountByLogin(req.user.userName).then(function(userAccount){
+		res.json(userAccount);
+	});
+	
 });
 
 app.get('/logout', function(req, res) {

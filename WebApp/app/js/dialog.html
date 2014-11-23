@@ -1,5 +1,44 @@
 <div id="dialog">
-	<div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam risus dui, dapibus vel risus et, sollicitudin tempus lectus. Integer et libero pretium mi gravida imperdiet. Nam fringilla, massa eget ullamcorper hendrerit, nulla nulla rutrum tortor, non egestas est diam congue lorem. Mauris quis dapibus lorem, quis viverra lorem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed venenatis ultrices lacus, sit amet rutrum dui posuere eu. Curabitur venenatis maximus ligula mollis maximus. Donec ex libero, facilisis vel luctus nec, pretium a lectus. Aenean sed arcu malesuada diam bibendum aliquet. Nam at eros diam. Aenean non nisi pretium, facilisis tortor ut, aliquam quam. Suspendisse potenti. Quisque non purus purus. Donec interdum malesuada neque, non scelerisque augue porttitor sit amet. Sed vulputate pulvinar ex, non fringilla sem aliquam non. Cras eu hendrerit elit.</div>
-	<button ng-click="cancel()" class="btn btn-primary pull-right">Close</button>
-	<button ng-click="save()" class="btn btn-primary pull-right">Save</button>
+  <div id="firstLoginForm">
+    <div>
+      <p class="welcomeText">Witaj w kreatorze Twojego osobistego konta! Aby móc Ci pomóc w organizacji Twoich finansów potrzebujemy kilku informacji o Twoich finansach.
+      </p>
+    </div>
+    <form class="form-horizontal" role="form">
+      <div class="form-group">
+        <div class="well">
+          <p class="">Na początek podaj przybliżoną wartość Twoich dochodów. Na podstawie tego będziemy mogli obliczać Twoje oszczędności i wydatki:</p>
+          
+          <input type="text" class="form-control" data-ng-model="monthlyIncoming" id="firstLogMonthIncome" placeholder="Podaj dochód">
+          
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="well">
+          <p class="">Drugą informacją jaką jest potrzebna to Twoje cykliczne miesięczne wydatki (np. samochód, czynsz za mieszkanie itp.)</p>
+          
+          
+          <div data-ng-repeat="monthlyObligation in monthlyObligations">
+            <p>Zobowiązanie nr.: {{$index+1}}</p>
+            <input type="text" data-ng-model="monthlyObligation.name" class="form-control" id="monthlyObligationsname" placeholder="Nazwa">
+            <input type="number" data-ng-model="monthlyObligation.value" class="form-control" id="monthlyObligations" placeholder="Kwota">
+            <p></p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      
+      
+    </div>
+    <button type="button" id="addFields" class="btn btn-success btn-xs" data-ng-click="addFields()"><span class="glyphicon glyphicon-plus" aria-hidden="true" ></span></button>
+    <div class="form-group" id="dialogButtons">
+      <div class="col-xs-11">
+        <button ng-click="cancel()" id="cancel" class="btn btn-primary pull-right">Zamknij</button>
+        <button ng-click="save()" class="btn btn-primary pull-right">Zapisz</button>
+      </div>
+    </div>
+  </form>
+</div>
 </div>
