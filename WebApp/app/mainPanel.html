@@ -21,8 +21,8 @@
             <div id="sidebar" class="sidebar-offcanvas col-md-3" >
                 <div class="col-md-12">
                     <img src="img/logo_mg_duze.png" class="img-rounded">
-                    <ul class="nav nav-pills nav-stacked">
-                        <span id="login">{{userLogin}}</span>
+                    <span id="login" class="badge welcomer">Witaj, {{userLogin}}</span>
+                    <ul class="nav nav-pills nav-stacked" id="leftSectionBars">
                         <li class="active"><a href="#">Section</a></li>
                         <li class="active"><a href="#">Section</a></li>
                         <li class="active"><a href="#">Section</a></li>
@@ -30,10 +30,10 @@
                         <li class="active"><a href="#">Section</a></li>
                         <li class="active"><a href="#">Section</a></li>
                         <li class="active"><a href="#">Section</a></li>
-                        <form action="/logout">
+                    </ul>
+                        <form action="/logout" id="logoutForm">
                             <input type="submit" class="btn btn-primary" value="Wyloguj" id="logout"/>
                         </form>
-                    </ul>
                 </div>
             </div>
             
@@ -46,19 +46,10 @@
             <div id="right" class="sidebar-offcanvas col-md-3">
                 <div class="col-md-12">
                     <img src="img/logo_mg_duze.png" class="img-rounded">
-                    <ul class="nav nav-pills nav-stacked" id="rightSidebarItems">
-                        <li class="active"><a href="#">Section</a></li>
-                        <li class="active"><a href="#">Section</a></li>
-                        <li class="active"><a href="#">Section</a></li>
-                        <li class="active"><a href="#">Section</a></li>
-                        <li class="active"><a href="#">Section</a></li>
-                        <li class="active"><a href="#">Section</a></li>
-                        <li class="active"><a href="#">Section</a></li>
-                        <li class="active"><a href="#">Section</a></li>
-                        <li class="active"><a href="#">Section</a></li>
-                        
-                    </ul>
-                </div>
+                <ul class="nav nav-pills nav-stacked" role="tablist">
+                    <li class="active"><a id="remainingMoneyBadge">Pozostało Ci, <span class="badge">660PLN</span></a></li>
+                    <li class="active"><a id="spentMoneyBadge">Wydałeś już , <span class="badge">340PLN</span></a></li>
+                </ul>
             </div>
             </div><!--/row-offcanvas -->
         </body>
