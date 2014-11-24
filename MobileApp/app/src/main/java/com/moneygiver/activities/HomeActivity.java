@@ -6,23 +6,33 @@ import android.view.Menu;
 import android.view.View;
 import android.view.MenuItem;
 
+import com.moneygiver.actions.LoginChecker;
 import com.moneygiver.actions.LoginExecutor;
 
 
 public class HomeActivity extends Activity {
 
-    private LoginExecutor loginExe;
-
+    private LoginExecutor loginExecutor;
+    private LoginChecker loginChecker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        loginExe = new LoginExecutor(findViewById(R.id.responseTextView), findViewById(R.id.logintw), findViewById(R.id.passwordet));
+        loginExecutor = new LoginExecutor(findViewById(R.id.responseTextView), findViewById(R.id.logintw), findViewById(R.id.passwordet), this);
+        loginChecker = new LoginChecker(this);
     }
 
-    public void buttonOnClick(View v) {
-        loginExe.press();
+    public void signIn(View v) {
+        loginExecutor.signIn();
+    }
+
+    public void isLoggedIn(View v) {
+        loginChecker.isLoggedIn();
+    }
+
+    public void logout(View v) {
+        loginExecutor.LogUserOut();
     }
 
     @Override

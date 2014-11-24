@@ -1,7 +1,10 @@
 package com.moneygiver.communication;
 
+import android.content.Context;
 import android.widget.TextView;
 
+import com.moneygiver.actions.LoginChecker;
+import com.moneygiver.actions.LoginExecutor;
 import com.moneygiver.threading.NewThreadExecutor;
 
 import android.os.Handler;
@@ -27,7 +30,7 @@ public class HttpRequest {
         this.responseTW = responseTW;
     }
 
-    public void Post() {
+    public void Post(LoginExecutor loginExecutor) {
         try {
             URL object = new URL(url);
             HttpURLConnection con = (HttpURLConnection) object.openConnection();
@@ -36,7 +39,7 @@ public class HttpRequest {
             con.setRequestProperty("Content-Type", "application/json");
             con.setRequestProperty("Accept", "application/json");
             con.setRequestMethod("POST");
-            thr = new NewThreadExecutor(con, JSONObject, responseTW);
+            thr = new NewThreadExecutor(con, JSONObject, responseTW, loginExecutor);
             Thread t = new Thread(thr);
             t.start();
         } catch (MalformedURLException e) {

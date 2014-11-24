@@ -1,8 +1,12 @@
 package com.moneygiver.threading;
 
+import android.content.Context;
 import android.os.Handler;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.moneygiver.actions.LoginChecker;
+import com.moneygiver.actions.LoginExecutor;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,13 +24,15 @@ public class NewThreadExecutor implements Runnable {
     private StringBuilder sb = new StringBuilder();
     private TextView responseTW;
     private Handler handler;
+    private LoginExecutor loginExecutor;
 
 
-    public NewThreadExecutor(HttpURLConnection connection, String JSONObject, TextView responseTW) {
+    public NewThreadExecutor(HttpURLConnection connection, String JSONObject, TextView responseTW, LoginExecutor loginExecutor) {
         this.connection = connection;
         this.JSONObject = JSONObject;
         this.responseTW = responseTW;
         this.handler = new Handler();
+        this.loginExecutor = loginExecutor;
     }
 
     @Override
@@ -51,6 +57,11 @@ public class NewThreadExecutor implements Runnable {
                 @Override
                 public void run() {
                     responseTW.setText("Otrzymano od serwera:\n"+ sb.toString());
+                    if(sb.toString().contains("admin")) {
+                        loginExecutor.LogUserIn();
+                    }
+
+
                 }
             });
         } catch (IOException e) {
