@@ -197,7 +197,6 @@ app.get('/calculateRemainingMoneyBadge', function(req, res) {
     dbManager.getUserAccountByLogin(req.user.userName).then(function (userAccount) {
         userAccount.monthlyObligations.forEach(function (entry) {
             userAmount.spentMoneyBadge += entry.value;
-            console.log(userAmount.spentMoneyBadge);
         });
         userAmount.remainingMoneyBadge = userAccount.income - userAmount.spentMoneyBadge;
         res.json(userAmount);
