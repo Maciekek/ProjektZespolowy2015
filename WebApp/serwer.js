@@ -191,6 +191,19 @@ app.post('/registerNewUser', function(req, res) {
 	});
 });
 
+app.get('/calculateRemainingMoneyBadge', function(req, res) {
+    console.log("Entry calculateRemainingMoneyBadge")
+    var userAmount = {spentMoneyBadge : 0, remainingMoneyBadge: 0};
+    dbManager.getUserAccountByLogin(req.user.userName).then(function (userAccount) {
+        userAccount.monthlyObligations.forEach(function (entry) {
+            userAmount.spentMoneyBadge += entry.value;
+            console.log(userAmount.spentMoneyBadge);
+        });
+        userAmount.remainingMoneyBadge = userAccount.income - userAmount.spentMoneyBadge;
+        res.json(userAmount);
+
+    });
+});
 httpServer.listen(port, function() {
 	console.log('Express server listening on port ' + port);
 });
