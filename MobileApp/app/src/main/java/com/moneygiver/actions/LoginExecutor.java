@@ -31,8 +31,8 @@ public class LoginExecutor {
 
     public void signIn() {
         // METODA DO ZROBIENIA
-        String json = "{'userCredentials': {'login': '" +loginTW.getText().toString() +
-                "', 'password':'" + passwordET.getText().toString() +"'}}";
+        String json = "{\"userCredentials\": {\"login\": \"" +loginTW.getText().toString() +
+                "\", \"password\":\"" + passwordET.getText().toString() +"\"}}";
 
         HttpRequest = new HttpRequest("http://178.62.111.179/userCredentials", json, responseTW);
         HttpRequest.Post(this);
