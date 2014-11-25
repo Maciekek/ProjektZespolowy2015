@@ -2,7 +2,6 @@
 var Q = require('q');
 
 /* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
-
 describe('MoneyGiver', function() {
 
 	it('should redirect / to /', function() {
@@ -44,38 +43,24 @@ describe('create new account test suite', function() {
 
 	beforeEach(function() {
 		ptor = protractor.getInstance();
+		browser.get('/');
+		$('#createAccountBtn').click();
+
+		var login = ptor.findElement(protractor.By.id('inputEmail'));
+		var pass = ptor.findElement(protractor.By.id('inputPassword'));
+
+		login.sendKeys("test" + loginRandom);
+		pass.sendKeys("testPass");
+
+		$('#registerButton').click();
 	});
 
 	it('create new account', function() {
-		browser.get('/');
-		$('#createAccountBtn').click();
-
-		var login = ptor.findElement(protractor.By.id('inputEmail'));
-		var pass = ptor.findElement(protractor.By.id('inputPassword'));
-
-		login.sendKeys("test" + loginRandom);
-		pass.sendKeys("testPass");
-
-		$('#registerButton').click();
-
 		browser.getLocationAbsUrl().then(function(url) {
 			expect(url.split('#')[1]).toBe('/');
 		});
-
-
 	});
 	it('create new account but with extisting login', function() {
-		browser.get('/');
-		$('#createAccountBtn').click();
-
-		var login = ptor.findElement(protractor.By.id('inputEmail'));
-		var pass = ptor.findElement(protractor.By.id('inputPassword'));
-
-		login.sendKeys("test" + loginRandom);
-		pass.sendKeys("testPass");
-
-		$('#registerButton').click();
-
 		browser.getLocationAbsUrl().then(function(url) {
 			expect(url.split('#')[1]).toBe('/createAccount');
 		});
@@ -84,14 +69,22 @@ describe('create new account test suite', function() {
 
 	})
 
-})
+});
+
 describe('login & logout', function() {
 	var ptor;
 	var loginRandom = "test" + Math.random();
 
 	beforeEach(function() {
 		ptor = protractor.getInstance();
+
+
 	});
+
+	// afterEach(function(){
+	// 	$("#logout").click();
+	// })
+
 	it('should login ', function() {
 		browser.get('/');
 		$('#createAccountBtn').click();
@@ -115,8 +108,8 @@ describe('login & logout', function() {
 		browser.getLocationAbsUrl().then(function(url) {
 			expect(url).toMatch('http:\/\/.*mainPanel#\/');
 		});
-
 	});
+
 	it('should logout ', function() {
 		browser.get('/');
 		var cancelButton = element(by.css('[ng-click="cancel()"]'))
@@ -129,7 +122,15 @@ describe('login & logout', function() {
 		});
 
 	});
-	it('should redirect to / after input wrong password ', function() {
+
+});
+describe('login & logout', function() {
+	var ptor;
+	var loginRandom = "test" + Math.random();
+
+	beforeEach(function() {
+		ptor = protractor.getInstance();
+
 		browser.get('/');
 		var login = ptor.findElement(protractor.By.model('login'));
 		var pass = ptor.findElement(protractor.By.model('pass'));
@@ -139,21 +140,15 @@ describe('login & logout', function() {
 
 		$('#login').click();
 
+
+	});
+	it('should redirect to / after input wrong password ', function() {
 		browser.getLocationAbsUrl().then(function(url) {
 			expect(url.split('#')[1]).toBe('/');
 		});
 
 	});
 	it('should redirect to / after input wrong login and password ', function() {
-		browser.get('/');
-		var login = ptor.findElement(protractor.By.model('login'));
-		var pass = ptor.findElement(protractor.By.model('pass'));
-
-		login.sendKeys("loginWrong");
-		pass.sendKeys("WrongPassword");
-
-		$('#login').click();
-
 		browser.getLocationAbsUrl().then(function(url) {
 			expect(url.split('#')[1]).toBe('/');
 		});
@@ -163,15 +158,13 @@ describe('login & logout', function() {
 
 });
 
-describe('login check', function() {
+describe('Login check with user configuration panel - only cancel button', function() {
+	var loginRandom = "loginRandom" + Math.random();
+	var testRandom = "test" + Math.random();
 	var ptor;
-	var loginRandom = "test" + Math.random();
-
 	beforeEach(function() {
 		ptor = protractor.getInstance();
-	});
 
-	it('create new account', function() {
 		browser.get('/');
 		$('#createAccountBtn').click();
 
@@ -179,76 +172,121 @@ describe('login check', function() {
 		var pass = ptor.findElement(protractor.By.id('inputPassword'));
 
 		login.sendKeys(loginRandom);
-		pass.sendKeys("testPass");
+		pass.sendKeys(testRandom);
 
 		$('#registerButton').click();
 
+		browser.get('/');
 		var login = ptor.findElement(protractor.By.model('login'));
 		var pass = ptor.findElement(protractor.By.model('pass'));
 
 		login.sendKeys(loginRandom);
-		pass.sendKeys("testPass");
+		pass.sendKeys(testRandom);
 
 		$('#login').click();
-
-		browser.getLocationAbsUrl().then(function(url) {
-			expect(url).toMatch('http:\/\/.*mainPanel#\/');
-		});
-
 	});
+
+
 
 	it('after correct login dialog shoud display', function() {
 		browser.get('/');
 		expect($('#dialog').isDisplayed()).toBeTruthy();
 
-	});
-
-	it('after close dialog, dialog should`t be display', function() {
-		browser.get('/');
 		var cancelButton = element(by.css('[ng-click="cancel()"]'))
 
+		browser.wait(function() {
+			return ptor.isElementPresent(cancelButton);
+		}, 30000);
+
 		cancelButton.click();
+
 		expect(element(by.css('[id="dialog"]')).isPresent()).toBeFalsy();
 
+		$("#logout").click();
+
 	});
+
 
 	it('after close dialog, userName on MainPanel should be display', function() {
 		browser.get('/');
 		var cancelButton = element(by.css('[ng-click="cancel()"]'))
 
+		browser.wait(function() {
+			return ptor.isElementPresent(cancelButton);
+		}, 30000);
+
 		cancelButton.click();
+
 		expect($('#login').isDisplayed()).toBeTruthy();
+
+		$("#logout").click();
 
 	});
 	it('after close dialog, userName on MainPanel and it should display login corectly', function() {
 		browser.get('/');
 		var cancelButton = element(by.css('[ng-click="cancel()"]'))
 
+		browser.wait(function() {
+			return ptor.isElementPresent(cancelButton);
+		}, 30000);
+ 		
 		cancelButton.click();
 
 		var loginField = element(by.id('login'));
-		expect(loginField.getText()).toEqual(loginRandom);
+
+		// browser.wait(element(by.id('login')).isPresent,300);
+		
+		expect(loginField.getText()).toEqual("Witaj, " + loginRandom);
+		
+		$('#logout').click();
 
 	});
 
+
+
+});
+describe('Login check with user configuration panel - only save button', function() {
+	var loginRandom = "loginRandom" + Math.random();
+	var testRandom = "test" + Math.random();
+
 	it('should close dialog by click on save button', function() {
+		var ptor = protractor.getInstance();
+
+		browser.get('/');
+		$('#createAccountBtn').click();
+
+		var login = ptor.findElement(protractor.By.id('inputEmail'));
+		var pass = ptor.findElement(protractor.By.id('inputPassword'));
+
+		login.sendKeys(loginRandom);
+		pass.sendKeys(testRandom);
+
+		$('#registerButton').click();
+
+		browser.get('/');
+		var login = ptor.findElement(protractor.By.model('login'));
+		var pass = ptor.findElement(protractor.By.model('pass'));
+
+		login.sendKeys(loginRandom);
+		pass.sendKeys(testRandom);
+
+		$('#login').click();
+
 		browser.get('/');
 		var saveButton = element(by.css('[ng-click="save()"]'))
 
 		saveButton.click();
 		expect(element(by.css('[id="dialog"]')).isPresent()).toBeFalsy();
 
-
 		$('#logout').click();
-	});
 
-	it('should close dialog by click on save button', function() {
 		browser.get('/');
+
 		var login = ptor.findElement(protractor.By.model('login'));
 		var pass = ptor.findElement(protractor.By.model('pass'));
 
 		login.sendKeys(loginRandom);
-		pass.sendKeys("testPass");
+		pass.sendKeys(testRandom);
 
 		$('#login').click();
 
@@ -257,7 +295,6 @@ describe('login check', function() {
 		$('#logout').click();
 
 	});
-
 });
 
 describe("should configure account ", function() {
@@ -288,7 +325,7 @@ describe("should configure account ", function() {
 
 	});
 
-	afterEach(function(){
+	afterEach(function() {
 
 	})
 	it("Montly obligation should equal to 1", function() {
@@ -296,12 +333,12 @@ describe("should configure account ", function() {
 		element.all(by.repeater('monthlyObligation in monthlyObligations')).then(function(arr) {
 			expect(arr.length).toEqual(1);
 		});
-		
+
 		$("#cancel").click();
 		$("#logout").click();
-		
 
-	})
+
+	});
 
 	it("Montly obligation should equal to 3", function() {
 		$("#addFields").click();
@@ -310,6 +347,6 @@ describe("should configure account ", function() {
 		element.all(by.repeater('monthlyObligation in monthlyObligations')).then(function(arr) {
 			expect(arr.length).toEqual(3);
 		});
-	})
+	});
 
-})
+});
