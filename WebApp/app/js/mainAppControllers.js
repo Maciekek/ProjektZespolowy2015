@@ -29,7 +29,13 @@ moneyGiverApp.controller('MainPanelController', ['$scope', '$http', '$modal',
 				modalDialogSetting($modal);
 			}
 		});
-
+        $http.get('/calculateRemainingMoneyBadge').
+            success(function(userAmount) {
+                $scope.remainingMoneyBadge = userAmount.remainingMoneyBadge;
+                $scope.spentMoneyBadge = userAmount.spentMoneyBadge;
+                console.log("remainingMoneyBadge:  " +  userAmount.remainingMoneyBadge );
+                console.log("spentMoneyBadge:  " +  userAmount.spentMoneyBadge );
+            });
 	}
 ]);
 
