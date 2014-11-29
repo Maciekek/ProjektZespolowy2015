@@ -14,6 +14,9 @@ moneyGiverApp.config(['$routeProvider',
 		when('/', {
 			templateUrl: 'partials/centerPanelMainPage.html',
 		}).
+		when('/addPayment', {
+			templateUrl: 'partials/addPayment.html',
+		}).
 		otherwise({
 			redirectTo: '/error'
 		});

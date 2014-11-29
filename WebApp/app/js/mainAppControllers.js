@@ -23,19 +23,19 @@ moneyGiverApp.controller('MainPanelController', ['$scope', '$http', '$modal',
 		$http.get('/getUserData').
 		success(function(userAccount) {
 			$scope.userLogin = userAccount.userName;
-			console.log("incoming:  " +  userAccount.income );
+			console.log("incoming:  " + userAccount.income);
 
 			if (userAccount.firstLogin) {
 				modalDialogSetting($modal);
 			}
 		});
-        $http.get('/calculateRemainingMoneyBadge').
-            success(function(userAmount) {
-                $scope.remainingMoneyBadge = userAmount.remainingMoneyBadge;
-                $scope.spentMoneyBadge = userAmount.spentMoneyBadge;
-                console.log("remainingMoneyBadge:  " +  userAmount.remainingMoneyBadge );
-                console.log("spentMoneyBadge:  " +  userAmount.spentMoneyBadge );
-            });
+		$http.get('/calculateRemainingMoneyBadge').
+		success(function(userAmount) {
+			$scope.remainingMoneyBadge = userAmount.remainingMoneyBadge;
+			$scope.spentMoneyBadge = userAmount.spentMoneyBadge;
+			console.log("remainingMoneyBadge:  " + userAmount.remainingMoneyBadge);
+			console.log("spentMoneyBadge:  " + userAmount.spentMoneyBadge);
+		});
 	}
 ]);
 
@@ -61,10 +61,37 @@ moneyGiverApp.controller('ModalInstanceCtrl', function($scope, $http, $modalInst
 		$modalInstance.dismiss();
 	};
 	$scope.addFields = function() {
-		
-		console.log("addFields");
+
 		$scope.monthlyObligations.push({});
 
 	};
+
+});
+
+moneyGiverApp.controller('addPaymentCtrl', function($scope, $http) {
+	console.log("AddPaymentCtrl");
+	$scope.newPayments = [{}];
+
+	$scope.addPayments = function() {
+
+		//temporary
+		if (!$scope.newPayments["0"].name || !$scope.newPayments["0"]) {
+			alert("Uzupełnij pola");
+		} else {
+			$scope.newPayments.push({});
+		}
+		//***
+	}
+
+	$scope.saveNewPayments = function() {
+		console.log($scope.newPayments);
+		$http.post('/addUserNewPayments', {
+			"newPayments": $scope.newPayments
+		}).
+		success(function(data) {
+			console.log(data);
+		});
+
+	}
 
 });

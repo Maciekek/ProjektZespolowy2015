@@ -56,6 +56,7 @@ var createAccount = function(login, pass) {
 		"userName": login,
 		"password": pass,
 		"firstLogin": true,
+		"allPayments": []
 	}, function(err, doc) {
 		if (err) {
 			console.log(err + "!!!!!");
@@ -109,3 +110,20 @@ var saveUserFinanceConfiguration = function(userName, userIncome, userMonthlyObl
 	});
 }
 exports.saveUserFinanceConfiguration = saveUserFinanceConfiguration;
+
+var saveNewUserPayments = function(newPayments, userName) {
+	var collection = db.get('userAccount');
+
+	getUserAccountByLogin(userName).then(function(userAccount) {
+		newPayments.forEach(function(newPayment) {
+			userAccount["allPayments"].push(newPayment);
+		});
+		collection.update({
+			"userName": userName
+		}, userAccount, function(err, item) {
+			console.log(item);
+		})
+	});
+
+}
+exports.saveNewUserPayments = saveNewUserPayments;
