@@ -89,7 +89,6 @@ console.log("app listen on port " + port);
 
 
 app.post('/login', function(req, res) {
-	console.log("/login");
 	passport.authenticate('local', function(err, user, info) {
 		if (!user) {
 			console.log("error złe dane");
@@ -98,7 +97,6 @@ app.post('/login', function(req, res) {
 		req.logIn(user, function(err) {
 			res.redirect('/mainPanel');
 		});
-		console.log(user);
 	})(req, res);
 });
 
@@ -138,7 +136,6 @@ app.get('/dialog.html', function(req, res) {
 });
 
 app.post('/saveFirstUserPreference', function(req, res) {
-	console.log(req.body);
 	dbManager.saveUserFinanceConfiguration(req.user.userName,
 		req.body.userIncome, req.body.userMonthlyObligations);
 
@@ -150,7 +147,6 @@ app.get('/mainPanel', isAuthenticated, function(req, res) {
 });
 
 app.get('/createAccount', function(req, res) {
-	console.log("test");
 	res.sendfile("./app/partials/createAccount.html");
 });
 
@@ -167,7 +163,7 @@ app.post('/userCredentials', function(req, res) {
 });
 
 app.get('/getUserData', function(req, res) {
-	dbManager.getUserAccountByLogin(req.user.userName).then(function(userAccount){
+	dbManager.getUserAccountByLogin(req.user.userName).then(function(userAccount) {
 		res.json(userAccount);
 	});
 	
@@ -179,7 +175,6 @@ app.get('/logout', function(req, res) {
 });
 
 app.post('/registerNewUser', function(req, res) {
-	console.log(req.body.userName);
 	dbManager.checkIfUserLoginIsFree(req.body.userName).then(function() {
 		dbManager.createAccount(req.body.userName, req.body.pass).then(function() {
 			res.send(true);
@@ -192,16 +187,27 @@ app.post('/registerNewUser', function(req, res) {
 });
 
 app.get('/calculateRemainingMoneyBadge', function(req, res) {
-    console.log("Entry calculateRemainingMoneyBadge")
-    var userAmount = {spentMoneyBadge : 0, remainingMoneyBadge: 0};
-    dbManager.getUserAccountByLogin(req.user.userName).then(function (userAccount) {
-        userAccount.monthlyObligations.forEach(function (entry) {
-            userAmount.spentMoneyBadge += entry.value;
-        });
-        userAmount.remainingMoneyBadge = userAccount.income - userAmount.spentMoneyBadge;
-        res.json(userAmount);
+	var userAmount = {
+		spentMoneyBadge: 0,
+		remainingMoneyBadge: 0
+	};
+	dbManager.getUserAccountByLogin(req.user.userName).then(function(userAccount) {
+		userAccount.monthlyObligations.forEach(function(entry) {
+			userAmount.spentMoneyBadge += entry.value;
+		});
+		userAccount.allPayments.forEach(function(payment) {
+			userAmount.spentMoneyBadge += payment.count;
 
-    });
+		})
+		userAmount.remainingMoneyBadge = userAccount.income - userAmount.spentMoneyBadge;
+		res.json(userAmount);
+
+	});
+});
+
+app.post("/addUserNewPayments", function(req, res) {
+	console.log(req.body);
+	dbManager.saveNewUserPayments(req.body.newPayments, req.user.userName);
 });
 httpServer.listen(port, function() {
 	console.log('Express server listening on port ' + port);
