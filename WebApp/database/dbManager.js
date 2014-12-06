@@ -2,6 +2,33 @@ var Q = require('q');
 var monk = require('monk');
 var db = monk('localhost:27017/moneyGiver');
 
+var calculateAvailableFunds = function(userIncome, userMonthlyObligations) {
+	var availableFunds = userIncome;
+	userMonthlyObligations.forEach(function(monthlyObligation) {
+		availableFunds -= monthlyObligation.value;
+	});
+
+	return availableFunds;
+}
+
+var calculateExpenses = function(userMonthlyObligations) {
+	var userExpenses = 0;
+	userMonthlyObligations.forEach(function(monthlyObligation) {
+		userExpenses += monthlyObligation.value;
+	});
+	return userExpenses;
+}
+
+var setTimeInformation = function(payment) {
+	var date = new Date();
+	payment.paymentMonth = date.getMonth() + 1;
+	payment.paymentDay = date.getDay();
+	payment.paymentTime = date.getHours() + ":" + date.getMinutes();
+	return payment;
+};
+
+
+
 var dbConnectionHandler = function(status) {
 	if (status) {
 		console.dir("Brak polaczenia z baza");
@@ -97,11 +124,13 @@ var saveUserFinanceConfiguration = function(userName, userIncome, userMonthlyObl
 	var collection = db.get('userAccount');
 
 	getUserAccountByLogin(userName).then(function(userAccount) {
-		console.log(userAccount);
 		userAccount.firstLogin = false;
 		userAccount.income = userIncome;
 		userAccount.monthlyObligations = userMonthlyObligations;
-		console.log(userAccount);
+
+		userAccount.availableFunds = calculateAvailableFunds(userIncome, userMonthlyObligations);
+		userAccount.userExpenses = calculateExpenses(userMonthlyObligations);
+
 		collection.update({
 			"userName": userName
 		}, userAccount, function(err, item) {
@@ -115,8 +144,11 @@ var saveNewUserPayments = function(newPayments, userName) {
 	var collection = db.get('userAccount');
 
 	getUserAccountByLogin(userName).then(function(userAccount) {
-		newPayments.forEach(function(newPayment) {
-			userAccount["allPayments"].push(newPayment);
+		newPayments.forEach(function(payment){
+			setTimeInformation(payment);
+			userAccount["allPayments"].push(payment);
+			userAccount.availableFunds -= payment.count;
+			userAccount.userExpenses += payment.count;
 		});
 		collection.update({
 			"userName": userName

@@ -1,3 +1,4 @@
+
 'use strict';
 
 var express = require('express');
@@ -186,27 +187,7 @@ app.post('/registerNewUser', function(req, res) {
 	});
 });
 
-app.get('/calculateRemainingMoneyBadge', function(req, res) {
-	var userAmount = {
-		spentMoneyBadge: 0,
-		remainingMoneyBadge: 0
-	};
-	dbManager.getUserAccountByLogin(req.user.userName).then(function(userAccount) {
-		userAccount.monthlyObligations.forEach(function(entry) {
-			userAmount.spentMoneyBadge += entry.value;
-		});
-		userAccount.allPayments.forEach(function(payment) {
-			userAmount.spentMoneyBadge += payment.count;
-
-		})
-		userAmount.remainingMoneyBadge = userAccount.income - userAmount.spentMoneyBadge;
-		res.json(userAmount);
-
-	});
-});
-
 app.post("/addUserNewPayments", function(req, res) {
-	console.log(req.body);
 	dbManager.saveNewUserPayments(req.body.newPayments, req.user.userName);
 });
 httpServer.listen(port, function() {

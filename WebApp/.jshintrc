@@ -20,6 +20,7 @@
     
   "globals": {
     "angular": false,
+    "alert":false,
 
     "browser": false,
     "element": false,
