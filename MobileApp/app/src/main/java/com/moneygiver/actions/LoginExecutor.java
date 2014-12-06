@@ -19,7 +19,6 @@ public class LoginExecutor {
     private DatabaseAdapter dbAdapter;
     private Context context;
 
-
     private HttpRequest HttpRequest;
 
     public LoginExecutor(Object response, Object login, Object password, Context context) {
@@ -35,7 +34,12 @@ public class LoginExecutor {
                 "\", \"password\":\"" + passwordET.getText().toString() +"\"}}";
 
         HttpRequest = new HttpRequest("http://178.62.111.179/userCredentials", json, responseTW);
-        HttpRequest.Post(this);
+        String credentials = makeCredentials(loginTW.getText().toString(), passwordET.getText().toString());
+        HttpRequest.Post(this, credentials);
+    }
+
+    private String makeCredentials(String login, String pass) {
+        return login+":"+pass;
     }
 
     public void LogUserIn() {

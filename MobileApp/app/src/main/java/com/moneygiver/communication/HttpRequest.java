@@ -8,6 +8,9 @@ import com.moneygiver.actions.LoginExecutor;
 import com.moneygiver.threading.NewThreadExecutor;
 
 import android.os.Handler;
+
+import org.apache.commons.codec.binary.Base64;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -30,13 +33,16 @@ public class HttpRequest {
         this.responseTW = responseTW;
     }
 
-    public void Post(LoginExecutor loginExecutor) {
+    public void Post(LoginExecutor loginExecutor, String credentials) {
         try {
+            String encoding = new String(Base64.encodeBase64(credentials.getBytes("UTF-8")),
+                    "UTF-8");
             URL object = new URL(url);
             HttpURLConnection con = (HttpURLConnection) object.openConnection();
             con.setDoOutput(true);
             con.setDoInput(true);
             con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Authorization", "Basic " + encoding);
             con.setRequestProperty("Accept", "application/json");
             con.setRequestMethod("POST");
             thr = new NewThreadExecutor(con, JSONObject, responseTW, loginExecutor);
