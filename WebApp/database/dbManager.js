@@ -159,3 +159,18 @@ var saveNewUserPayments = function(newPayments, userName) {
 
 }
 exports.saveNewUserPayments = saveNewUserPayments;
+
+var updatePassword = function(userName, password) {
+    var collection = db.get('userAccount');
+
+    getUserAccountByLogin(userName).then(function(userAccount) {
+        userAccount.password = password;
+        collection.update({
+            "userName": userName
+        }, userAccount, function(err, item) {
+            console.log(item);
+        })
+    });
+}
+
+exports.updatePassword = updatePassword;
