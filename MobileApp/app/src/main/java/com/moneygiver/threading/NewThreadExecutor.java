@@ -1,12 +1,15 @@
 package com.moneygiver.threading;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.moneygiver.actions.LoginChecker;
+import com.moneygiver.actions.Message;
 import com.moneygiver.actions.LoginExecutor;
+import com.moneygiver.activities.R;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,15 +25,15 @@ public class NewThreadExecutor implements Runnable {
     private HttpURLConnection connection;
     private String JSONObject;
     private StringBuilder sb = new StringBuilder();
-    private TextView responseTW;
+    private Activity activity;
     private Handler handler;
     private LoginExecutor loginExecutor;
 
 
-    public NewThreadExecutor(HttpURLConnection connection, String JSONObject, TextView responseTW, LoginExecutor loginExecutor) {
+    public NewThreadExecutor(HttpURLConnection connection, String JSONObject, Context context, LoginExecutor loginExecutor) {
         this.connection = connection;
         this.JSONObject = JSONObject;
-        this.responseTW = responseTW;
+        this.activity = (Activity) context;
         this.handler = new Handler();
         this.loginExecutor = loginExecutor;
     }
@@ -50,18 +53,16 @@ public class NewThreadExecutor implements Runnable {
                     sb.append(line + "\n");
                 }
                 br.close();
-            }else{
+            }else {
                 System.out.println(connection.getResponseMessage());
             }
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    responseTW.setText("Otrzymano od serwera:\n"+ sb.toString());
+                    Message.message(activity, "Otrzymano od serwera:\n" + sb.toString());
                     if(sb.toString().contains("admin")) {
                         loginExecutor.LogUserIn();
                     }
-
-
                 }
             });
         } catch (IOException e) {

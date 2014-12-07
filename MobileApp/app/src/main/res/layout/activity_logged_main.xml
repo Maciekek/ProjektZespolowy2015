@@ -8,9 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.moneygiver.activities.LoginActivity">
+    tools:context="com.moneygiver.activities.LoggedMainActivity">
 
-    <!-- Login progress -->
     <ProgressBar
         android:id="@+id/login_progress"
         style="?android:attr/progressBarStyleLarge"
@@ -31,36 +30,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <AutoCompleteTextView
-                android:id="@+id/logintw"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="login"
-                android:inputType="text"
-                android:maxLines="1"
-                android:singleLine="true"/>
-
-            <EditText
-                android:id="@+id/passwordet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="password"
-                android:imeActionId="@+id/login"
-                android:imeActionLabel="sign in"
-                android:imeOptions="actionUnspecified"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:singleLine="true"/>
-
             <Button
-                android:id="@+id/email_sign_in_button"
+                android:id="@+id/SignOut"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Sign in"
+                android:text="Logout"
                 android:textStyle="bold"
-                android:onClick="signIn" />
+                android:onClick="logout" />
 
             <Button
                 android:id="@+id/checkIfLoggedIn"
@@ -71,11 +49,7 @@
                 android:text="Check if logged in"
                 android:textStyle="bold"
                 android:onClick="isLoggedIn" />
-
         </LinearLayout>
     </ScrollView>
 
 </LinearLayout>
-
-
-

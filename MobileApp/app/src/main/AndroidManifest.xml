@@ -8,13 +8,17 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.moneygiver.activities.HomeActivity"
+            android:name=".LoginActivity"
             android:label="@string/title_activity_home" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.moneygiver.activities.LoggedMainActivity"
+            android:label="@string/title_activity_logged_in_main" >
         </activity>
     </application>
 

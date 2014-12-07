@@ -1,6 +1,7 @@
 package com.moneygiver.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -8,31 +9,36 @@ import android.view.MenuItem;
 
 import com.moneygiver.actions.LoginChecker;
 import com.moneygiver.actions.LoginExecutor;
+import com.moneygiver.actions.Message;
 
 
-public class HomeActivity extends Activity {
+public class LoginActivity extends Activity {
 
     private LoginExecutor loginExecutor;
     private LoginChecker loginChecker;
+    private Intent i;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        loginExecutor = new LoginExecutor(findViewById(R.id.responseTextView), findViewById(R.id.logintw), findViewById(R.id.passwordet), this);
+        loginExecutor = new LoginExecutor(this);
         loginChecker = new LoginChecker(this);
+        i = new Intent(this, LoggedMainActivity.class);
+        if(loginChecker.isLoggedIn()) {
+            startActivity(i);
+            finish();
+        }
     }
 
-    public void signIn(View v) {
-        loginExecutor.signIn();
-    }
+    public void signIn(View v) { loginExecutor.signIn(); }
 
     public void isLoggedIn(View v) {
-        loginChecker.isLoggedIn();
-    }
-
-    public void logout(View v) {
-        loginExecutor.LogUserOut();
+        if(loginChecker.isLoggedIn()) {
+            Message.message(this, "Zalogowany");
+        }else {
+            Message.message(this, "Niezalogowany");
+        }
     }
 
     @Override

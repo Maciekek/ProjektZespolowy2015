@@ -1,5 +1,6 @@
 package com.moneygiver.communication;
 
+import android.app.Activity;
 import android.content.Context;
 import android.widget.TextView;
 
@@ -23,14 +24,14 @@ import java.net.URL;
  */
 public class HttpRequest {
     private String url;
-    private TextView responseTW;
+    private Activity activity;
     private String JSONObject;
     private NewThreadExecutor thr;
 
-    public HttpRequest(String url, String JSONObject, TextView responseTW) {
+    public HttpRequest(String url, String JSONObject, Context context) {
         this.url = url;
         this.JSONObject = JSONObject;
-        this.responseTW = responseTW;
+        this.activity = (Activity) context;
     }
 
     public void Post(LoginExecutor loginExecutor, String credentials) {
@@ -45,7 +46,7 @@ public class HttpRequest {
             con.setRequestProperty("Authorization", "Basic " + encoding);
             con.setRequestProperty("Accept", "application/json");
             con.setRequestMethod("POST");
-            thr = new NewThreadExecutor(con, JSONObject, responseTW, loginExecutor);
+            thr = new NewThreadExecutor(con, JSONObject, activity, loginExecutor);
             Thread t = new Thread(thr);
             t.start();
         } catch (MalformedURLException e) {

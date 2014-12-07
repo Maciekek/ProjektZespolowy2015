@@ -18,10 +18,8 @@ public class LoginChecker {
     public boolean isLoggedIn() {
         int isLogged = dbAdapter.getLoggedIn();
         if (isLogged == 1) {
-            Message.message(context, "Zalogowany");
             return true;
         } else {
-            Message.message(context, "Niezalogowany");
             return false;
         }
     }
