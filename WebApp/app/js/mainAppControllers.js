@@ -95,3 +95,20 @@ moneyGiverApp.controller('addPaymentCtrl', function($scope, $http) {
 	}
 
 });
+
+moneyGiverApp.controller('changePasswordCtrl', function($scope, $http){
+
+    $scope.changePassword = function() {
+        $http.post('/changePassword', {
+            "password": {
+                "oldPassword": $scope.inputOldPassword,
+                "newPassword": $scope.inputNewPassword,
+                "newPasswordSecond": $scope.inputNewPasswordSecond
+            }
+        }).
+        success(function(data) {
+            console.log(data);
+            $scope.result = data;
+        });
+    }
+});
