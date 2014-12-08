@@ -58,7 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="sign in"
+                android:text="Sign in"
                 android:textStyle="bold"
                 android:onClick="signIn" />
 
@@ -68,30 +68,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="CheckIfLoggedIn"
+                android:text="Check if logged in"
                 android:textStyle="bold"
                 android:onClick="isLoggedIn" />
 
-            <Button
-                android:id="@+id/SignOut"
-                style="?android:textAppearanceSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Logout"
-                android:textStyle="bold"
-                android:onClick="logout" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Medium Text"
-                android:id="@+id/responseTextView" />
-
         </LinearLayout>
     </ScrollView>
-
 </LinearLayout>
 
 
