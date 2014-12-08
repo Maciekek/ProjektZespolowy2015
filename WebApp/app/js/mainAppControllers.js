@@ -28,14 +28,12 @@ moneyGiverApp.controller('MainPanelController', ['$scope', '$http', '$modal',
 			if (userAccount.firstLogin) {
 				modalDialogSetting($modal);
 			}
+
+			$scope.remainingMoneyBadge = userAccount.availableFunds;
+			$scope.spentMoneyBadge = userAccount.userExpenses;
+
 		});
-		$http.get('/calculateRemainingMoneyBadge').
-		success(function(userAmount) {
-			$scope.remainingMoneyBadge = userAmount.remainingMoneyBadge;
-			$scope.spentMoneyBadge = userAmount.spentMoneyBadge;
-			console.log("remainingMoneyBadge:  " + userAmount.remainingMoneyBadge);
-			console.log("spentMoneyBadge:  " + userAmount.spentMoneyBadge);
-		});
+
 	}
 ]);
 
@@ -81,7 +79,7 @@ moneyGiverApp.controller('addPaymentCtrl', function($scope, $http) {
 			$scope.newPayments.push({});
 		}
 		//***
-	}
+	};
 
 	$scope.saveNewPayments = function() {
 		console.log($scope.newPayments);
@@ -92,6 +90,6 @@ moneyGiverApp.controller('addPaymentCtrl', function($scope, $http) {
 			console.log(data);
 		});
 
-	}
+	};
 
 });
