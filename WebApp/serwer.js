@@ -208,7 +208,7 @@ app.get('/calculateRemainingMoneyBadge', function(req, res) {
 app.post('/changePassword', function(req, res) {
         dbManager.getUserAccountByLogin(req.user.userName).then(function(userAccount) {
         if(userAccount.password !== req.body.password.oldPassword){
-            res.send("Stare hasło nie zgadza się!");
+            res.send("Stare hasło sie nie zgadza");
         }
         else{
             if(req.body.password.newPassword !== req.body.password.newPasswordSecond){
