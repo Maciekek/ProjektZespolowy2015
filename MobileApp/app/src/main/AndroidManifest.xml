@@ -17,8 +17,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.moneygiver.activities.LoggedMainActivity"
+            android:name=".LoggedMainActivity"
             android:label="@string/title_activity_logged_in_main" >
+        </activity>
+        <activity
+            android:name=".MainTabs"
+            android:label="@string/title_activity_tabs_main" >
         </activity>
     </application>
 

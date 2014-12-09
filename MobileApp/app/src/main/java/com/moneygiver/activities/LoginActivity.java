@@ -17,6 +17,7 @@ public class LoginActivity extends Activity {
     private LoginExecutor loginExecutor;
     private LoginChecker loginChecker;
     private Intent i;
+    private Intent j;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,8 +26,10 @@ public class LoginActivity extends Activity {
         loginExecutor = new LoginExecutor(this);
         loginChecker = new LoginChecker(this);
         i = new Intent(this, LoggedMainActivity.class);
+        j = new Intent(this, MainTabs.class);
         if(loginChecker.isLoggedIn()) {
-            startActivity(i);
+//            startActivity(i);
+            startActivity(j);
             finish();
         }
     }
