@@ -167,7 +167,9 @@ app.post('/userCredentials', function(req, res) {
 			return res.status(403).end();
 		}
 		req.logIn(user, function(err) {
-			res.send(user);
+			dbManager.getUserAccountByLogin(user.userName).then(function(userAccount) {
+				res.json(userAccount);
+			});
 		});
 	})(req, res);
 });
