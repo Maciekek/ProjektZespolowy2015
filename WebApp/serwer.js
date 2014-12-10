@@ -1,4 +1,3 @@
-
 'use strict';
 
 var express = require('express');
@@ -45,6 +44,14 @@ function isAuthenticated(req, res, next) {
 	}
 }
 
+function isAuthenticatedMobi(req, res, next) {
+	if (req.user) {
+		next();
+	} else {
+		res.redirect('/letLogin');
+	}
+}
+
 passport.serializeUser(function(user, done) {
 	done(null, user);
 });
@@ -55,7 +62,7 @@ passport.deserializeUser(function(obj, done) {
 
 passport.use(new LocalStrategy(
 	function(username, password, done) {
-		return dbManager.findUserPassword(username).then(function(userAccount) {
+		return dbManager.findUserPassword(username.toLowerCase()).then(function(userAccount) {
 			if (password === userAccount.password) {
 				console.log("Udane logowanie...");
 				return done(null, {
@@ -90,6 +97,7 @@ console.log("app listen on port " + port);
 
 
 app.post('/login', function(req, res) {
+	console.log(req.body);
 	passport.authenticate('local', function(err, user, info) {
 		if (!user) {
 			console.log("error złe dane");
@@ -100,6 +108,7 @@ app.post('/login', function(req, res) {
 		});
 	})(req, res);
 });
+
 
 var onAuthorizeSuccess = function(data, accept) {
 	console.log('Udane połączenie z socket.io');
@@ -152,22 +161,24 @@ app.get('/createAccount', function(req, res) {
 });
 
 app.post('/userCredentials', function(req, res) {
-	var json = {
-		"userCredentials": {}
-	};
-	json["userCredentials"] = {
-		"login": "admin",
-		"password": "admin"
-	};
-
-	res.json(json);
+	passport.authenticate('local', function(err, user, info) {
+		if (!user) {
+			return res.status(403).end();
+		}
+		req.logIn(user, function(err) {
+			dbManager.getUserAccountByLogin(user.userName).then(function(userAccount) {
+				res.json(userAccount);
+			});
+		});
+	})(req, res);
 });
+
 
 app.get('/getUserData', function(req, res) {
 	dbManager.getUserAccountByLogin(req.user.userName).then(function(userAccount) {
 		res.json(userAccount);
 	});
-	
+
 });
 
 app.get('/logout', function(req, res) {

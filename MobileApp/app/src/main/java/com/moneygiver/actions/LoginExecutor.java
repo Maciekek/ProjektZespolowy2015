@@ -45,8 +45,8 @@ public class LoginExecutor {
     }
 
     private String makeJSON(String login, String password) {
-        return "{\"userCredentials\": {\"login\": \"" +login +
-                "\", \"password\":\"" + password +"\"}}";
+        return "{\"username\": \"" +login +
+                "\", \"password\":\"" + password +"\"}";
     }
 
     private String makeCredentials(String login, String pass) {
