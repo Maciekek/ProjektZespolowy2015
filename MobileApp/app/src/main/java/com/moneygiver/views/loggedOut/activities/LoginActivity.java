@@ -1,32 +1,42 @@
-package com.moneygiver.activities;
+package com.moneygiver.views.loggedOut.activities;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
 
 import com.moneygiver.actions.LoginChecker;
 import com.moneygiver.actions.LoginExecutor;
 import com.moneygiver.actions.Message;
+import com.moneygiver.views.R;
+import com.moneygiver.views.loggedIn.activities.MainTabs;
 
 
 public class LoginActivity extends Activity {
 
+    private static long back_pressed;
     private LoginExecutor loginExecutor;
     private LoginChecker loginChecker;
-    private Intent i;
+
+    private Intent j;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        getActionBar().hide();
         setContentView(R.layout.activity_home);
+
+
 
         loginExecutor = new LoginExecutor(this);
         loginChecker = new LoginChecker(this);
-        i = new Intent(this, LoggedMainActivity.class);
+        j = new Intent(this, MainTabs.class);
         if(loginChecker.isLoggedIn()) {
-            startActivity(i);
+//            startActivity(i);
+            startActivity(j);
             finish();
         }
     }
@@ -58,5 +68,13 @@ public class LoginActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        if (back_pressed + 2000 > System.currentTimeMillis()) super.onBackPressed();
+        else Message.message(this, getString(R.string.press_back_again));
+        back_pressed = System.currentTimeMillis();
     }
 }

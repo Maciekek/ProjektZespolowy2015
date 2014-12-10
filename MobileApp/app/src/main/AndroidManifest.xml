@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.moneygiver.activities" >
+    package="com.moneygiver.views" >
 
     <application
         android:allowBackup="true"
@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".LoginActivity"
+            android:name=".loggedOut.activities.LoginActivity"
             android:label="@string/title_activity_home" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,8 +17,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.moneygiver.activities.LoggedMainActivity"
-            android:label="@string/title_activity_logged_in_main" >
+            android:name=".loggedIn.activities.MainTabs"
+            android:label="@string/title_activity_tabs_main" >
         </activity>
     </application>
 
