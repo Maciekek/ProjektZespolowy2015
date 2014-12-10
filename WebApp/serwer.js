@@ -1,4 +1,3 @@
-
 'use strict';
 
 var express = require('express');
@@ -38,6 +37,14 @@ var sio;
 
 
 function isAuthenticated(req, res, next) {
+	if (req.user) {
+		next();
+	} else {
+		res.redirect('/letLogin');
+	}
+}
+
+function isAuthenticatedMobi(req, res, next) {
 	if (req.user) {
 		next();
 	} else {
@@ -90,6 +97,7 @@ console.log("app listen on port " + port);
 
 
 app.post('/login', function(req, res) {
+	console.log(req.body);
 	passport.authenticate('local', function(err, user, info) {
 		if (!user) {
 			console.log("error złe dane");
@@ -100,6 +108,7 @@ app.post('/login', function(req, res) {
 		});
 	})(req, res);
 });
+
 
 var onAuthorizeSuccess = function(data, accept) {
 	console.log('Udane połączenie z socket.io');
@@ -151,23 +160,36 @@ app.get('/createAccount', function(req, res) {
 	res.sendfile("./app/partials/createAccount.html");
 });
 
-app.post('/userCredentials', function(req, res) {
-	var json = {
-		"userCredentials": {}
-	};
-	json["userCredentials"] = {
-		"login": "admin",
-		"password": "admin"
-	};
-	console.log(req.body);
-	res.json(json);
+// app.post('/userCredentials', isAuthenticatedMobi, function(req, res) {
+// 	var json = {
+// 		"userCredentials": {}
+// 	};
+// 	json["userCredentials"] = {
+// 		"login": "admin",
+// 		"password": "admin"
+// 	};
+// 	console.log(req.body);
+// 	res.json(json);
+// });
+
+app.('/userCredentials', function(req, res) {
+	passport.authenticate('local', function(err, user, info) {
+		if (!user) {
+			console.log("error złe dane");
+			return res.send('error');
+		}
+		req.logIn(user, function(err) {
+			res.send('OK');
+		});
+	})(req, res);
 });
+
 
 app.get('/getUserData', function(req, res) {
 	dbManager.getUserAccountByLogin(req.user.userName).then(function(userAccount) {
 		res.json(userAccount);
 	});
-	
+
 });
 
 app.get('/logout', function(req, res) {
