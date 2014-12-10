@@ -25,7 +25,7 @@ public class LoggedMainActivity extends Activity implements OnRefreshListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logged_main);
 
-        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_center_container);
         swipeLayout.setOnRefreshListener(this);
 
         swipeLayout.setColorScheme(android.R.color.holo_blue_bright,

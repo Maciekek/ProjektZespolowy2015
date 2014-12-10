@@ -1,13 +1,12 @@
 package com.moneygiver.activities;
 
-import android.app.Activity;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.view.Menu;
-import android.view.MenuItem;
-import com.moneygiver.activities.R;
+
+import com.moneygiver.activities.fragments.CenterFragment;
+import com.moneygiver.activities.fragments.LeftFragment;
+import com.moneygiver.activities.fragments.RightFragment;
 
 public class FragmentPageAdapter extends FragmentPagerAdapter {
 

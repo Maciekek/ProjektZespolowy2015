@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.moneygiver.activities.LoggedMainActivity;
 import com.moneygiver.activities.LoginActivity;
+import com.moneygiver.activities.MainTabs;
 import com.moneygiver.activities.R;
 import com.moneygiver.communication.HttpRequest;
 import com.moneygiver.database.DatabaseAdapter;
@@ -59,7 +60,7 @@ public class LoginExecutor {
     public void LogUserIn() {
         dbAdapter.deleteAllData();
         dbAdapter.insertData(1);
-        i = new Intent(activity, LoggedMainActivity.class);
+        i = new Intent(activity, MainTabs.class);
         activity.startActivity(i);
         activity.finish();
     }

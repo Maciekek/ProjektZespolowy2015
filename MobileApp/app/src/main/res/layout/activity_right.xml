@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0B9AE2"
+    android:background="#A991DA"
     >
     <TextView
         android:id="@+id/textView1"
@@ -11,6 +11,6 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="97dp"
-        android:text="Welcome to php page"
+        android:text="Welcome to Right"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 </RelativeLayout>
