@@ -1,4 +1,4 @@
-package com.moneygiver.activities;
+package com.moneygiver.views;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

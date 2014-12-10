@@ -1,4 +1,4 @@
-package com.moneygiver.activities.fragments;
+package com.moneygiver.views.loggedIn.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,7 +12,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.widget.Toast;
 
-import com.moneygiver.activities.R;
+import com.moneygiver.views.R;
+import com.moneygiver.views.loggedIn.SwipeLayout.LayoutObject;
 
 /**
  * Created by Szymon on 2014-12-09.
@@ -29,14 +30,7 @@ public class CenterFragment extends Fragment implements OnRefreshListener {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-
-        swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_center_container);
-        swipeLayout.setOnRefreshListener(this);
-
-        swipeLayout.setColorScheme(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+        swipeLayout = new LayoutObject(this, view).getSwipeLayout();
     }
 
 
@@ -47,8 +41,7 @@ public class CenterFragment extends Fragment implements OnRefreshListener {
             public void run() {
                 swipeLayout.setRefreshing(false);
                 Context context = getActivity().getApplicationContext();
-                Toast.makeText(context, "Refreshed!", Toast.LENGTH_LONG).show();
-//                        Message.message(context, "Refreshed :)");
+                Toast.makeText(context, "Odświeżono!", Toast.LENGTH_LONG).show();
             }
         }, 2000);
     }

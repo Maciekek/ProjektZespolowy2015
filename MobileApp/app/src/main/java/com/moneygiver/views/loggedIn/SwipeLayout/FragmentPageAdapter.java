@@ -1,12 +1,12 @@
-package com.moneygiver.activities;
+package com.moneygiver.views.loggedIn.SwipeLayout;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.moneygiver.activities.fragments.CenterFragment;
-import com.moneygiver.activities.fragments.LeftFragment;
-import com.moneygiver.activities.fragments.RightFragment;
+import com.moneygiver.views.loggedIn.fragments.CenterFragment;
+import com.moneygiver.views.loggedIn.fragments.LeftFragment;
+import com.moneygiver.views.loggedIn.fragments.RightFragment;
 
 public class FragmentPageAdapter extends FragmentPagerAdapter {
 

@@ -5,16 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import com.moneygiver.activities.LoggedMainActivity;
-import com.moneygiver.activities.LoginActivity;
-import com.moneygiver.activities.MainTabs;
-import com.moneygiver.activities.R;
+import com.moneygiver.views.loggedOut.activities.LoginActivity;
+import com.moneygiver.views.loggedIn.activities.MainTabs;
+import com.moneygiver.views.R;
 import com.moneygiver.communication.HttpRequest;
 import com.moneygiver.database.DatabaseAdapter;
-
-import static android.support.v4.app.ActivityCompat.startActivity;
 
 /**
  * Created by Szymon on 2014-11-02.

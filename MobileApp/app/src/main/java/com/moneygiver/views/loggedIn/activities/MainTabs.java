@@ -1,72 +1,76 @@
-package com.moneygiver.activities;
+package com.moneygiver.views.loggedIn.activities;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.moneygiver.actions.LoginChecker;
 import com.moneygiver.actions.LoginExecutor;
 import com.moneygiver.actions.Message;
+import com.moneygiver.views.R;
+import com.moneygiver.views.loggedIn.SwipeLayout.FragmentPageAdapter;
 
 /**
  * Created by Szymon on 2014-12-09.
  */
 public class MainTabs extends FragmentActivity implements ActionBar.TabListener{
+
+    private static long back_pressed;
     private LoginChecker loginChecker;
     private LoginExecutor loginExecutor;
     private Context context = this;
     private SwipeRefreshLayout swipeLayout;
 
-    ActionBar actionbar;
+    ActionBar actionBar;
     ViewPager viewpager;
     FragmentPageAdapter ft;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-//        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-//        getActionBar().hide();
-
         setContentView(R.layout.activity_tabs_main);
+        prepareTabs();
 
-        viewpager = (ViewPager) findViewById(R.id.pager);
-        ft = new FragmentPageAdapter(getSupportFragmentManager());
-        actionbar = getActionBar();
-        viewpager.setAdapter(ft);
-        actionbar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        actionbar.addTab(actionbar.newTab().setText("Left").setTabListener(this));
-        actionbar.addTab(actionbar.newTab().setText("Center").setTabListener(this));
-        actionbar.addTab(actionbar.newTab().setText("Right").setTabListener(this));
-        viewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageSelected(int arg0) {
-                actionbar.setSelectedNavigationItem(arg0);
-            }
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-                // TODO Auto-generated method stub
-            }
-            @Override
-            public void onPageScrollStateChanged(int arg0) {
-                // TODO Auto-generated method stub
-            }
-        });
         loginExecutor = new LoginExecutor(this);
         loginChecker = new LoginChecker(this);
     }
 
+    private void prepareTabs() {
+        viewpager = (ViewPager) findViewById(R.id.pager);
+        ft = new FragmentPageAdapter(getSupportFragmentManager());
+        actionBar = getActionBar();
+        viewpager.setAdapter(ft);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.addTab(actionBar.newTab().setText("Lewo").setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("Środek").setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText("Prawo").setTabListener(this));
+
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);
+        viewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int arg0) {
+                actionBar.setSelectedNavigationItem(arg0);
+            }
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {}
+            @Override
+            public void onPageScrollStateChanged(int arg0) {}
+        });
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        if (back_pressed + 2000 > System.currentTimeMillis()) super.onBackPressed();
+        else Message.message(this, getString(R.string.press_back_again));
+        back_pressed = System.currentTimeMillis();
+    }
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
