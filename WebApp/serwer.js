@@ -159,7 +159,7 @@ app.post('/userCredentials', function(req, res) {
 		"login": "admin",
 		"password": "admin"
 	};
-
+	console.log(req.body);
 	res.json(json);
 });
 
