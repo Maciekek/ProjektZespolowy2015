@@ -163,7 +163,6 @@ app.get('/createAccount', function(req, res) {
 app.post('/userCredentials', function(req, res) {
 	passport.authenticate('local', function(err, user, info) {
 		if (!user) {
-			console.log("error złe dane");
 			return res.status(403).end();
 		}
 		req.logIn(user, function(err) {
