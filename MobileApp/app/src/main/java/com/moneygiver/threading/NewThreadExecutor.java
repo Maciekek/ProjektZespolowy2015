@@ -5,7 +5,12 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.moneygiver.actions.LoginExecutor;
+import com.moneygiver.actions.Message;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 
 /**
@@ -31,8 +36,7 @@ public class NewThreadExecutor implements Runnable {
 
     @Override
     public void run() {
-        loginExecutor.LogUserIn();
-        /*try {
+        try {
             OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
             wr.write(JSONObject);
             wr.flush();
@@ -51,14 +55,13 @@ public class NewThreadExecutor implements Runnable {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    Message.message(activity, "Otrzymano od serwera:\n" + sb.toString());
-                    if(sb.toString().contains("admin")) {
+                    if(sb.toString().toLowerCase().contains("ok")) {
                         loginExecutor.LogUserIn();
                     }
                 }
             });
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 }
