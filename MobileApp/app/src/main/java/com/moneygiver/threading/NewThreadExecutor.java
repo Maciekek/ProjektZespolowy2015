@@ -3,13 +3,9 @@ package com.moneygiver.threading;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
-import android.widget.EditText;
-import android.widget.TextView;
 
-import com.moneygiver.actions.LoginChecker;
-import com.moneygiver.actions.Message;
 import com.moneygiver.actions.LoginExecutor;
-import com.moneygiver.activities.R;
+import com.moneygiver.actions.Message;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -59,8 +55,7 @@ public class NewThreadExecutor implements Runnable {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    Message.message(activity, "Otrzymano od serwera:\n" + sb.toString());
-                    if(sb.toString().contains("admin")) {
+                    if(sb.toString().toLowerCase().contains("ok")) {
                         loginExecutor.LogUserIn();
                     }
                 }
