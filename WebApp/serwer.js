@@ -62,7 +62,7 @@ passport.deserializeUser(function(obj, done) {
 
 passport.use(new LocalStrategy(
 	function(username, password, done) {
-		return dbManager.findUserPassword(username).then(function(userAccount) {
+		return dbManager.findUserPassword(username.toLowerCase()).then(function(userAccount) {
 			if (password === userAccount.password) {
 				console.log("Udane logowanie...");
 				return done(null, {
@@ -160,19 +160,7 @@ app.get('/createAccount', function(req, res) {
 	res.sendfile("./app/partials/createAccount.html");
 });
 
-// app.post('/userCredentials', isAuthenticatedMobi, function(req, res) {
-// 	var json = {
-// 		"userCredentials": {}
-// 	};
-// 	json["userCredentials"] = {
-// 		"login": "admin",
-// 		"password": "admin"
-// 	};
-// 	console.log(req.body);
-// 	res.json(json);
-// });
-
-app.('/userCredentials', function(req, res) {
+app.post('/userCredentials', function(req, res) {
 	passport.authenticate('local', function(err, user, info) {
 		if (!user) {
 			console.log("error złe dane");
