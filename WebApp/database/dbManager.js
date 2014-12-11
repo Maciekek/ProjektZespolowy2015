@@ -129,16 +129,23 @@ var saveNewUserPayments = function(newPayments, userName) {
 exports.saveNewUserPayments = saveNewUserPayments;
 
 var updatePassword = function(userName, password) {
+    var deferred = Q.defer();
     var collection = db.get('userAccount');
 
     getUserAccountByLogin(userName).then(function(userAccount) {
         userAccount.password = password;
         collection.update({
             "userName": userName
-        }, userAccount, function(err, item) {
-            console.log(item);
-        })
+        }, userAccount, function(err, userAccount) {
+            if (err) {
+                deferred.reject();
+
+            } else {
+                deferred.resolve();
+            }
+        });
     });
+    return deferred.promise;
 }
 
 exports.updatePassword = updatePassword;
