@@ -1,20 +1,21 @@
+<div data-ng-controller="accountSettingCtrl">
 <button type="button" class="btn btn-danger">Dodaj mieśięczny wydatek hehe TODO </button>
-
+<div ng-repeat="obligation in obligations">
 <div class="row">
 	<!-- Każdy wydatek powinien być wyświetlany korzystając z tego szablonu: -->
 <div class = "col-lg-6">
 <div class="panel panel-info">
-  <div class="panel-heading">TUTAJ NAZWA I KWOTA WYDATKU :)</div>
+  <div class="panel-heading">Nazwa wydatku : {{obligation.name}} Kwota wydatku: {{obligation.value}}</div>
   <div class="panel-body">
         <form class="form-horizontal" role="form">
         <div class="form-group amountInputs">
-            <label for="newAmount" class="control-label">Nowa kwota wydaku: </label>
+            <label for="newAmount" class="control-label">Nowa kwota wydatku: </label>
             <div class="row">
             <div class="col-xs-6">
-                <input type="number" class="form-control" data-ng-model="newAmount"  id="newAmount" placeholder="Nowa Kwota">
+                <input type="number" class="form-control" data-ng-model="obligation.value"  id="newAmount" placeholder="Nowa Kwota">
             </div>
             <div class="btn-group">
-  <button type="button" id="saveNewAmount" type="submit" class="btn btn-primary">Zmień</button>
+  <button type="button" id="saveNewAmount" type="submit" class="btn btn-primary" data-ng-click="updateObligations()" data-toggle="modal" data-target="#myModal">Zmień</button>
   <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
     <span class="caret"></span>
   </button>
@@ -28,7 +29,49 @@
   </div>
 </div>
 </div>
+</div>
+</div>
 <!-- Tu sie szablon konczy. Takie wszystkie wydatki razem musze być okalane przez jednego <div class="row"> tak jak to widać tu :) -->
+    <div class="row">
+        <!-- Każdy wydatek powinien być wyświetlany korzystając z tego szablonu: -->
+        <div class = "col-lg-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">Twoje Przychody : {{income}}</div>
+                <div class="panel-body">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group amountInputs">
+                            <label for="newIncome" class="control-label">Nowa kwota do wydatku: </label>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <input type="number" class="form-control" data-ng-model="income"  id="newIncome" placeholder="Nowe przychody">
+                                </div>
+                                <div class="btn-group">
+                                    <button type="button" id="saveNewIncome" type="submit" class="btn btn-primary" data-ng-click="updateIncome()" data-toggle="modal" data-target="#myModal">Zmień</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
+</div>
 
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Zamknij</span></button>
+                <h4 class="modal-title" id="myModalLabel">Uwaga :)!</h4>
+            </div>
+            <div class="modal-body">
+                <p id="result" >{{res}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
+</div>
 </div>

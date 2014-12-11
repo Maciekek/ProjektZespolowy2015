@@ -223,6 +223,28 @@ app.post('/changePassword', function(req, res) {
     });
 });
 
+app.get('/getAccountSetting', function(req, res){
+    dbManager.getUserAccountByLogin(req.user.userName).then(function(userAccount) {
+        var userFinance = {
+            monthlyObligations: userAccount.monthlyObligations,
+            income: userAccount.income
+        };
+        res.json(userFinance);
+    });
+});
+
+app.post('/updateIncome', function(req, res){
+    dbManager.updateIncome(req.user.userName, req.body.newIncome).then(function(){
+        res.json("Przychód zmieniony! Twój obecny zarobek to : " + req.body.newIncome);
+    });
+});
+
+app.post('/updateObligations', function(req, res){
+    dbManager.updateObligations(req.user.userName, req.body.obligations).then(function(){
+        res.json("Miesięczne wydatki zostały zaktualizowane !");
+    });
+});
+
 app.post("/addUserNewPayments", function(req, res) {
 	console.log(req.body);
 	dbManager.saveNewUserPayments(req.body.newPayments, req.user.userName);

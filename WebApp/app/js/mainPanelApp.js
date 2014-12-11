@@ -20,6 +20,9 @@ moneyGiverApp.config(['$routeProvider',
         when('/changePassword', {
             templateUrl: 'partials/changePassword.html',
         }).
+		when('/financeSetting', {
+            templateUrl: 'partials/financeSettings.html',
+        }).
 		otherwise({
 			redirectTo: '/error'
 		});

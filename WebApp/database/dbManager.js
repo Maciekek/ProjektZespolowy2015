@@ -136,7 +136,7 @@ var updatePassword = function(userName, password) {
         userAccount.password = password;
         collection.update({
             "userName": userName
-        }, userAccount, function(err, userAccount) {
+        }, userAccount, function(err) {
             if (err) {
                 deferred.reject();
 
@@ -149,3 +149,48 @@ var updatePassword = function(userName, password) {
 }
 
 exports.updatePassword = updatePassword;
+
+var updateIncome = function(userName, newIncome) {
+    var deferred = Q.defer();
+    var collection = db.get('userAccount');
+
+    getUserAccountByLogin(userName).then(function(userAccount) {
+        userAccount.income = newIncome;
+        collection.update({
+            "userName": userName
+        }, userAccount, function(err) {
+            if (err) {
+                deferred.reject();
+
+            } else {
+                deferred.resolve();
+            }
+        });
+    });
+    return deferred.promise;
+}
+
+exports.updateIncome = updateIncome;
+
+var updateObligations = function(userName, obligations) {
+    var deferred = Q.defer();
+    var collection = db.get('userAccount');
+
+    getUserAccountByLogin(userName).then(function(userAccount) {
+        userAccount.monthlyObligations = obligations;
+        collection.update({
+            "userName": userName
+        }, userAccount, function(err) {
+            if (err) {
+                deferred.reject();
+
+            } else {
+                deferred.resolve();
+            }
+        });
+    });
+    return deferred.promise;
+}
+
+exports.updateObligations = updateObligations;
+

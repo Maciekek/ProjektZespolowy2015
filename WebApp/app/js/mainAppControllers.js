@@ -107,8 +107,37 @@ moneyGiverApp.controller('changePasswordCtrl', function($scope, $http){
             }
         }).
         success(function(data) {
-            console.log(data);
             $scope.result = data;
+        });
+    }
+});
+
+moneyGiverApp.controller('accountSettingCtrl', function($scope, $http) {
+
+    $http.get('/getAccountSetting').
+        success(function(userFinance) {
+            $scope.obligations = userFinance.monthlyObligations;
+            $scope.income = userFinance.income;
+
+        });
+
+    $scope.updateIncome = function() {
+        $http.post('/updateIncome', {
+            "newIncome": $scope.income
+        }).
+            success(function (data) {
+                console.log(data);
+                $scope.res = data;
+            });
+    }
+
+    $scope.updateObligations = function(){
+        $http.post('/updateObligations', {
+            "obligations": $scope.obligations
+        }).
+        success(function (data) {
+            console.log(data);
+            $scope.res = data;
         });
     }
 });
