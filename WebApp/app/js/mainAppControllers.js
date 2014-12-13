@@ -140,4 +140,16 @@ moneyGiverApp.controller('accountSettingCtrl', function($scope, $http) {
             $scope.res = data;
         });
     }
+
+    $scope.removeObligation = function(index){
+        $scope.obligations.splice(index,1);
+        $http.post('/updateObligations', {
+            "obligations": $scope.obligations
+        }).
+            success(function (data) {
+                console.log(data);
+                $scope.res = data;
+            });
+    }
+
 });
