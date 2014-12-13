@@ -173,3 +173,16 @@ body,html,.row-offcanvas {
 #addPaymentsMoreButton{
   margin-top: 15px;
 }
+
+.panel-info>.panel-heading {
+color: white;
+background-color: #8e44ad;
+border-color: #8e44ad;
+}
+.panel-info {
+border-color: #8e44ad;
+}
+
+.amountInputs{
+  padding-left: 15px;
+}

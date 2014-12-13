@@ -27,7 +27,9 @@
                 <ul class="nav nav-pills nav-stacked" id="leftSectionBars">
                     <li class="active"><a href="#/addPayment"><span class="glyphicon glyphicon-cloud-upload" style="vertical-align:middle"></span> Dodaj wydatek</a>
                     </li>
-                    <li class="active"><a href="#/changePassword"><span class="glyphicon glyphicon-cloud-upload" style="vertical-align:middle"></span> Zmień hasło</a>
+                    <li class="active"><a href="#/changePassword"><span class="glyphicon glyphicon-cloud-upload" style="vertical-align:middle"></span> Ustawienia konta</a>
+                    </li>
+                    <li class="active"><a href="#/financeSetting"><span class="glyphicon glyphicon-cloud-upload" style="vertical-align:middle"></span> Ustawienia finansów</a>
                     </li>
                 </ul>
                 <form action="/logout" id="logoutForm">
@@ -37,9 +39,8 @@
         </div>
 
         <div id="main" class="col-md-6">
-            <ul class="nav nav-pills nav-stacked">
                 <div data-ng-view></div>
-            </ul>
+                
         </div>
         <div id="right" class="sidebar-offcanvas col-md-3">
             <div class="col-md-12">

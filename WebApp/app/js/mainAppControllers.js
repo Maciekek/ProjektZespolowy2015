@@ -28,12 +28,14 @@ moneyGiverApp.controller('MainPanelController', ['$scope', '$http', '$modal',
 			if (userAccount.firstLogin) {
 				modalDialogSetting($modal);
 			}
-
-			$scope.remainingMoneyBadge = userAccount.availableFunds;
-			$scope.spentMoneyBadge = userAccount.userExpenses;
-
 		});
-
+		$http.get('/calculateRemainingMoneyBadge').
+		success(function(userAmount) {
+			$scope.remainingMoneyBadge = userAmount.remainingMoneyBadge;
+			$scope.spentMoneyBadge = userAmount.spentMoneyBadge;
+			console.log("remainingMoneyBadge:  " + userAmount.remainingMoneyBadge);
+			console.log("spentMoneyBadge:  " + userAmount.spentMoneyBadge);
+		});
 	}
 ]);
 
@@ -79,7 +81,7 @@ moneyGiverApp.controller('addPaymentCtrl', function($scope, $http) {
 			$scope.newPayments.push({});
 		}
 		//***
-	};
+	}
 
 	$scope.saveNewPayments = function() {
 		console.log($scope.newPayments);
@@ -90,7 +92,7 @@ moneyGiverApp.controller('addPaymentCtrl', function($scope, $http) {
 			console.log(data);
 		});
 
-	};
+	}
 
 });
 
@@ -105,8 +107,49 @@ moneyGiverApp.controller('changePasswordCtrl', function($scope, $http){
             }
         }).
         success(function(data) {
-            console.log(data);
             $scope.result = data;
         });
     }
+});
+
+moneyGiverApp.controller('accountSettingCtrl', function($scope, $http) {
+
+    $http.get('/getAccountSetting').
+        success(function(userFinance) {
+            $scope.obligations = userFinance.monthlyObligations;
+            $scope.income = userFinance.income;
+
+        });
+
+    $scope.updateIncome = function() {
+        $http.post('/updateIncome', {
+            "newIncome": $scope.income
+        }).
+            success(function (data) {
+                console.log(data);
+                $scope.res = data;
+            });
+    }
+
+    $scope.updateObligations = function(){
+        $http.post('/updateObligations', {
+            "obligations": $scope.obligations
+        }).
+        success(function (data) {
+            console.log(data);
+            $scope.res = data;
+        });
+    }
+
+    $scope.removeObligation = function(index){
+        $scope.obligations.splice(index,1);
+        $http.post('/updateObligations', {
+            "obligations": $scope.obligations
+        }).
+            success(function (data) {
+                console.log(data);
+                $scope.res = data;
+            });
+    }
+
 });
