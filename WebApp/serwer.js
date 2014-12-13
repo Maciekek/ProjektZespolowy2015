@@ -245,13 +245,13 @@ app.get('/getAccountSetting', function(req, res){
 
 app.post('/updateIncome', function(req, res){
     dbManager.updateIncome(req.user.userName, req.body.newIncome).then(function(){
-        res.json("Przychód zmieniony! Twój obecny zarobek to : " + req.body.newIncome);
+        res.send("Przychód zmieniony! Twój obecny zarobek to : " + req.body.newIncome);
     });
 });
 
 app.post('/updateObligations', function(req, res){
     dbManager.updateObligations(req.user.userName, req.body.obligations).then(function(){
-        res.json("Miesięczne wydatki zostały zaktualizowane !");
+        res.send("Miesięczne wydatki zostały zaktualizowane !");
     });
 });
 
