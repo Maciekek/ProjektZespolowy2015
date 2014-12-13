@@ -21,7 +21,9 @@
     "connect": "^2.14.5",
     "socket.io": "^0.9.16",
     "cookie-parser":"*",
-    "express-session":"*"
+    "express-session":"*",
+    "crypto":"*",
+    "connect-flash":"*"
   },
   "devDependencies": {
     "nodemon":"*",

@@ -1,5 +1,5 @@
 'use strict';
-
+var flash = require('connect-flash');
 var express = require('express');
 var app = express();
 var bodyParser = require("body-parser");
@@ -19,6 +19,10 @@ var io = socketIo.listen(httpServer);
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 
+var crypto = require('crypto');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
 mongo.connect('mongodb://localhost:27017/moneyGiver', dbManager.dbConnectionHandler);
 
 app.use(express.static(__dirname + '/app'));
@@ -35,6 +39,19 @@ var sessionKey = 'connect.sid';
 var server;
 var sio;
 
+app.use(bodyParser.urlencoded({
+	extended: true
+}));
+app.use(session({
+	store: sessionStore,
+	key: sessionKey,
+	secret: sessionSecret,
+	resave: true,
+	saveUninitialized: true
+}));
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 
 function isAuthenticated(req, res, next) {
 	if (req.user) {
@@ -63,7 +80,11 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new LocalStrategy(
 	function(username, password, done) {
 		return dbManager.findUserPassword(username.toLowerCase()).then(function(userAccount) {
-			if (password === userAccount.password) {
+			var hash = crypto.createHash('sha1');
+			hash.update(password);
+			var hashPassword = hash.digest('hex');
+			
+			if (hashPassword === userAccount.password) {
 				console.log("Udane logowanie...");
 				return done(null, {
 					userName: userAccount.userName,
@@ -80,18 +101,7 @@ passport.use(new LocalStrategy(
 		});
 	}
 ));
-app.use(bodyParser.urlencoded({
-	extended: true
-}));
-app.use(session({
-	store: sessionStore,
-	key: sessionKey,
-	secret: sessionSecret,
-	resave: true,
-	saveUninitialized: true
-}));
-app.use(passport.initialize());
-app.use(passport.session());
+
 
 console.log("app listen on port " + port);
 
@@ -188,7 +198,13 @@ app.get('/logout', function(req, res) {
 
 app.post('/registerNewUser', function(req, res) {
 	dbManager.checkIfUserLoginIsFree(req.body.userName).then(function() {
-		dbManager.createAccount(req.body.userName, req.body.pass).then(function() {
+		var password = req.body.pass;
+
+		var hash = crypto.createHash('sha1');
+		hash.update(password);
+		var result = hash.digest('hex');
+
+		dbManager.createAccount(req.body.userName, result).then(function() {
 			res.send(true);
 		});
 	}).
@@ -197,6 +213,7 @@ app.post('/registerNewUser', function(req, res) {
 
 	});
 });
+
 
 app.post("/addUserNewPayments", function(req, res) {
 	dbManager.saveNewUserPayments(req.body.newPayments, req.user.userName);
