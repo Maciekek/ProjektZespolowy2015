@@ -6,6 +6,7 @@ import android.os.Handler;
 
 import com.moneygiver.actions.LoginExecutor;
 import com.moneygiver.actions.Message;
+import com.moneygiver.views.R;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,7 +42,7 @@ public class NewThreadExecutor implements Runnable {
             wr.write(JSONObject);
             wr.flush();
             sb = new StringBuilder();
-            int HttpResult = connection.getResponseCode();
+            final int HttpResult = connection.getResponseCode();
             if(HttpResult == HttpURLConnection.HTTP_OK){
                 BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(),"utf-8"));
                 String line = null;
@@ -49,18 +50,26 @@ public class NewThreadExecutor implements Runnable {
                     sb.append(line + "\n");
                 }
                 br.close();
-            }else {
-                System.out.println(connection.getResponseMessage());
             }
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    if(sb.toString().toLowerCase().contains("ok")) {
+                    if(HttpResult == 200) {
                         loginExecutor.LogUserIn();
+                    }
+                    else if(HttpResult == 403){
+                        Message.message(activity, activity.getString(R.string.incorrect_credentials));
                     }
                 }
             });
-        } catch (IOException e) {
+        } catch (java.net.ConnectException c) {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Message.message(activity, activity.getString(R.string.login_error));
+                };
+            });
+            }catch (IOException e) {
             e.printStackTrace();
         }
     }

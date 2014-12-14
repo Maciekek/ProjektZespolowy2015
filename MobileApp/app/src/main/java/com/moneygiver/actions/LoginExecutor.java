@@ -41,7 +41,7 @@ public class LoginExecutor {
         String json = makeJSON(login, pass);
         HttpRequest = new HttpRequest(LOGIN_URL, json, activity);
         String credentials = makeCredentials(login, pass);
-        HttpRequest.Post(this, credentials);
+        HttpRequest.PostLogin(this, credentials);
     }
 
     private String makeJSON(String login, String password) {

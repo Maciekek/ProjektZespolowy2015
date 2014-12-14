@@ -34,7 +34,7 @@ public class HttpRequest {
         this.activity = (Activity) context;
     }
 
-    public void Post(LoginExecutor loginExecutor, String credentials) {
+    public void PostLogin(LoginExecutor loginExecutor, String credentials) {
         try {
             String encoding = new String(Base64.encodeBase64(credentials.getBytes("UTF-8")),
                     "UTF-8");
@@ -46,6 +46,7 @@ public class HttpRequest {
             con.setRequestProperty("Authorization", "Basic " + encoding);
             con.setRequestProperty("Accept", "application/json");
             con.setRequestMethod("POST");
+
             thr = new NewThreadExecutor(con, JSONObject, activity, loginExecutor);
             Thread t = new Thread(thr);
             t.start();

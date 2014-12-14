@@ -13,6 +13,9 @@
     <string name="login_placeholder">Login</string>
     <string name="password_placeholder">Hasło</string>
     <string name="press_back_again">Nacisnij jeszcze raz by wyjść</string>
+    <string name="incorrect_credentials">Wprowadziłeś niepoprawne dane logowania</string>
+    <string name="login_error">Błąd\nSprawdź połączenie z internetem</string>
+
 
 
 </resources>
