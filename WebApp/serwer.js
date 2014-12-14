@@ -261,3 +261,12 @@ app.post("/addUserNewPayments", function(req, res) {
 httpServer.listen(port, function() {
 	console.log('Express server listening on port ' + port);
 });
+
+app.get('/getFinanceHistory', function(req, res){
+    dbManager.getUserAccountByLogin(req.user.userName).then(function(userAccount) {
+        var userHistory = {
+            payments: userAccount["allPayments"],
+        };
+        res.json(userHistory);
+    });
+});

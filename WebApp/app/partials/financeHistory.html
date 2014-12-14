@@ -1,3 +1,4 @@
+	<div data-ng-controller="financeHistoryCtrl">
 	<div class="panel panel-info">
   <!-- Default panel contents -->
   <div class="panel-heading text-center">Historia twoich wydatków</div>
@@ -55,5 +56,13 @@
 			<td class="text-center">2.00</td>
 			<td class="text-center">14-12-2014</td>
 		</tr>
+		<div ng-repeat="payment in payments">
+			<tr>
+				<td class="text-center">{{payment.name}}</td>
+				<td class="text-center">{{payment.count}}</td>
+				<td class="text-center">14-12-2014</td>			
+			</tr>
+		</div>
 	</table>
+</div>
 </div>
