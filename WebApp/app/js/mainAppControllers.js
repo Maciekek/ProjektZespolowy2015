@@ -159,7 +159,7 @@ moneyGiverApp.controller('financeHistoryCtrl', function($scope, $http){
 $http.get('/getFinanceHistory').
         success(function(userHistory) {
             $scope.payments = userHistory.payments;
-            console.dir(userHistory.payments);
+            console.log(userHistory.payments);
             console.log("financeHistoryCtrl");
         });
 });
