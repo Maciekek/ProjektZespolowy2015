@@ -23,6 +23,9 @@ moneyGiverApp.config(['$routeProvider',
 		when('/financeSetting', {
             templateUrl: 'partials/financeSettings.html',
         }).
+        when('/financeHistory', {
+            templateUrl: 'partials/financeHistory.html',
+        }).
 		otherwise({
 			redirectTo: '/error'
 		});

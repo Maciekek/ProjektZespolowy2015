@@ -22,8 +22,9 @@ var calculateExpenses = function(userMonthlyObligations) {
 var setTimeInformation = function(payment) {
 	var date = new Date();
 	payment.paymentMonth = date.getMonth() + 1;
-	payment.paymentDay = date.getDay();
+	payment.paymentDay = date.getDate();
 	payment.paymentTime = date.getHours() + ":" + date.getMinutes();
+	payment.paymentYear = date.getFullYear();
 	return payment;
 };
 

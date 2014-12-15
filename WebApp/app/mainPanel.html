@@ -23,13 +23,17 @@
         <div id="sidebar" class="sidebar-offcanvas col-md-3">
             <div class="col-md-12">
                 <img src="img/logo_mg_duze.png" class="img-rounded">
-                <span id="login" class="badge welcomer">Witaj, {{userLogin}}</span>
+                 <ul class="nav nav-pills nav-stacked" id="leftSectionBars">
+                <li class="active"><a id="welcomer">Witaj, <span class="badge">{{userLogin}}</span></a></li>
+            </ul>
                 <ul class="nav nav-pills nav-stacked" id="leftSectionBars">
-                    <li class="active"><a href="#/addPayment"><span class="glyphicon glyphicon-cloud-upload" style="vertical-align:middle"></span> Dodaj wydatek</a>
+                    <li class="active"><a href="#/addPayment"> Dodaj wydatek</a>
                     </li>
-                    <li class="active"><a href="#/changePassword"><span class="glyphicon glyphicon-cloud-upload" style="vertical-align:middle"></span> Ustawienia konta</a>
+                    <li class="active"><a href="#/changePassword"> Ustawienia konta</a>
                     </li>
-                    <li class="active"><a href="#/financeSetting"><span class="glyphicon glyphicon-cloud-upload" style="vertical-align:middle"></span> Ustawienia finansów</a>
+                    <li class="active"><a href="#/financeSetting"> Ustawienia finansów</a>
+                    </li>
+                    <li class="active"><a href="#/financeHistory"> Historia finansów</a>
                     </li>
                 </ul>
                 <form action="/logout" id="logoutForm">
