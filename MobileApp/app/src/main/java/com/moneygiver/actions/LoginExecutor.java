@@ -54,7 +54,7 @@ public class LoginExecutor {
     }
 
     public void LogUserIn() {
-        dbAdapter.deleteAllData();
+        dbAdapter.clearLoginData();
         dbAdapter.insertData(1);
         i = new Intent(activity, MainTabs.class);
         activity.startActivity(i);
@@ -62,7 +62,8 @@ public class LoginExecutor {
     }
 
     public void LogUserOut() {
-        dbAdapter.deleteAllData();
+        dbAdapter.clearLoginData();
+        dbAdapter.clearUserData();
         dbAdapter.insertData(0);
         i = new Intent(activity, LoginActivity.class);
         activity.startActivity(i);

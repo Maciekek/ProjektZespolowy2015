@@ -8,8 +8,11 @@ import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.moneygiver.DBObjects.UserData;
+import com.moneygiver.database.DatabaseAdapter;
 import com.moneygiver.views.R;
 import com.moneygiver.views.loggedIn.SwipeLayout.LayoutObject;
 
@@ -18,15 +21,34 @@ import com.moneygiver.views.loggedIn.SwipeLayout.LayoutObject;
  */
 public class LeftFragment extends android.support.v4.app.Fragment implements OnRefreshListener {
     private SwipeRefreshLayout swipeLayout;
+    private UserData userData;
+    private DatabaseAdapter db;
+    private TextView tw;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.activity_left, container,false);
+
+
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         swipeLayout = new LayoutObject(this, view).getSwipeLayout();
+
+        tw = (TextView)getView().findViewById(R.id.data);
+        getDataFromDB();
+        setData();
+    }
+
+    private void getDataFromDB() {
+        db = new DatabaseAdapter(getActivity().getApplicationContext());
+        userData = db.getUserData();
+    }
+
+    private void setData() {
+        tw.setText("WITAJ "+userData.getUsername() + "\nTwoje miesięczne przychody to: "+userData.getIncome());
     }
 
     @Override

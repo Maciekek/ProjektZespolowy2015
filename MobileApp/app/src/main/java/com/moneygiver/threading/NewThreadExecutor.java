@@ -3,9 +3,11 @@ package com.moneygiver.threading;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
+import android.widget.TextView;
 
 import com.moneygiver.actions.LoginExecutor;
 import com.moneygiver.actions.Message;
+import com.moneygiver.database.DatabaseAdapter;
 import com.moneygiver.views.R;
 
 import java.io.BufferedReader;
@@ -13,6 +15,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import com.moneygiver.DBObjects.UserData;
+
 
 /**
  * Created by Szymon on 2014-11-02.
@@ -55,6 +62,10 @@ public class NewThreadExecutor implements Runnable {
                 @Override
                 public void run() {
                     if(HttpResult == 200) {
+                   //    Message.message(activity, sb.toString());
+                        UserData user = getJSON(sb.toString());
+                        DatabaseAdapter db = new DatabaseAdapter(activity);
+                        db.insertUserData(user);
                         loginExecutor.LogUserIn();
                     }
                     else if(HttpResult == 403){
@@ -73,4 +84,19 @@ public class NewThreadExecutor implements Runnable {
             e.printStackTrace();
         }
     }
+
+    private UserData getJSON(String result) {
+        UserData usr = new UserData();
+        try {
+            JSONObject mainObject = new JSONObject(result);
+            usr.setIncome(Integer.parseInt(mainObject.getString("income")));
+            usr.setUsername(mainObject.getString("userName"));
+            usr.setPassword(mainObject.getString("password"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return usr;
+    }
+
+
 }
