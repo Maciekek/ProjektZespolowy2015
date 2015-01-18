@@ -17,8 +17,35 @@ var modalDialogSetting = function(_$modal) {
 
 };
 
-moneyGiverApp.controller('MainPanelController', ['$scope', '$http', '$modal',
-	function($scope, $http, $modal) {
+
+moneyGiverApp.factory("userFinanceFactory", function() {
+	var remainingMoneyBadge = 0,
+		spentMoneyBadge = 0;
+
+	function getFinanceData() {
+		return [remainingMoneyBadge, spentMoneyBadge];
+	}
+
+	function setFinanceData(userFinanceCalculated) {
+		remainingMoneyBadge = userFinanceCalculated.remainingMoneyBadge;
+		spentMoneyBadge = userFinanceCalculated.spentMoneyBadge;
+	}
+	return {
+		getFinanceData: getFinanceData,
+		setFinanceData: setFinanceData,
+	}
+});
+
+moneyGiverApp.controller('MainPanelController', ['$scope', '$http', '$modal', 'userFinanceFactory',
+	function($scope, $http, $modal, userFinanceFactory) {
+
+		$scope.$watch(function() {
+			return userFinanceFactory.getFinanceData();
+		}, function(value) {
+			$scope.remainingMoneyBadge = value[0];
+			$scope.spentMoneyBadge = value[1];
+		}, true);
+
 
 		$http.get('/getUserData').
 		success(function(userAccount) {
@@ -39,7 +66,7 @@ moneyGiverApp.controller('MainPanelController', ['$scope', '$http', '$modal',
 	}
 ]);
 
-moneyGiverApp.controller('ModalInstanceCtrl', function($scope, $http, $modalInstance) {
+moneyGiverApp.controller('ModalInstanceCtrl', function($scope, $http, $modalInstance, userFinanceFactory) {
 	console.log("ModalInstanceCtrl");
 	$scope.monthlyObligations = [{}];
 
@@ -48,11 +75,11 @@ moneyGiverApp.controller('ModalInstanceCtrl', function($scope, $http, $modalInst
 			"userIncome": $scope.monthlyIncoming,
 			"userMonthlyObligations": $scope.monthlyObligations
 		}).
-		success(function(data) {
-			console.log(data);
+		success(function(userFinanceCalculated) {
+			userFinanceFactory.setFinanceData(userFinanceCalculated);
+		}).error(function() {
+			console.log("FAIL");
 		});
-		var monthlyObligations = $scope.monthlyObligations;
-		console.log(monthlyObligations);
 
 		$modalInstance.close();
 	};
@@ -96,70 +123,70 @@ moneyGiverApp.controller('addPaymentCtrl', function($scope, $http) {
 
 });
 
-moneyGiverApp.controller('changePasswordCtrl', function($scope, $http){
+moneyGiverApp.controller('changePasswordCtrl', function($scope, $http) {
 
-    $scope.changePassword = function() {
-        $http.post('/changePassword', {
-            "password": {
-                "oldPassword": $scope.inputOldPassword,
-                "newPassword": $scope.inputNewPassword,
-                "newPasswordSecond": $scope.inputNewPasswordSecond
-            }
-        }).
-        success(function(data) {
-            $scope.result = data;
-        });
-    }
+	$scope.changePassword = function() {
+		$http.post('/changePassword', {
+			"password": {
+				"oldPassword": $scope.inputOldPassword,
+				"newPassword": $scope.inputNewPassword,
+				"newPasswordSecond": $scope.inputNewPasswordSecond
+			}
+		}).
+		success(function(data) {
+			$scope.result = data;
+		});
+	}
 });
 
 moneyGiverApp.controller('accountSettingCtrl', function($scope, $http) {
 
-    $http.get('/getAccountSetting').
-        success(function(userFinance) {
-            $scope.obligations = userFinance.monthlyObligations;
-            $scope.income = userFinance.income;
+	$http.get('/getAccountSetting').
+	success(function(userFinance) {
+		$scope.obligations = userFinance.monthlyObligations;
+		$scope.income = userFinance.income;
 
-        });
+	});
 
-    $scope.updateIncome = function() {
-        $http.post('/updateIncome', {
-            "newIncome": $scope.income
-        }).
-            success(function (data) {
-                console.log(data);
-                $scope.res = data;
-            });
-    }
+	$scope.updateIncome = function() {
+		$http.post('/updateIncome', {
+			"newIncome": $scope.income
+		}).
+		success(function(data) {
+			console.log(data);
+			$scope.res = data;
+		});
+	}
 
-    $scope.updateObligations = function(){
-        $http.post('/updateObligations', {
-            "obligations": $scope.obligations
-        }).
-        success(function (data) {
-            console.log(data);
-            $scope.res = data;
-        });
-    }
+	$scope.updateObligations = function() {
+		$http.post('/updateObligations', {
+			"obligations": $scope.obligations
+		}).
+		success(function(data) {
+			console.log(data);
+			$scope.res = data;
+		});
+	}
 
-    $scope.removeObligation = function(index){
-        $scope.obligations.splice(index,1);
-        $http.post('/updateObligations', {
-            "obligations": $scope.obligations
-        }).
-            success(function (data) {
-                console.log(data);
-                $scope.res = data;
-            });
-    }
+	$scope.removeObligation = function(index) {
+		$scope.obligations.splice(index, 1);
+		$http.post('/updateObligations', {
+			"obligations": $scope.obligations
+		}).
+		success(function(data) {
+			console.log(data);
+			$scope.res = data;
+		});
+	}
 
 });
 
 
-moneyGiverApp.controller('financeHistoryCtrl', function($scope, $http){
-$http.get('/getFinanceHistory').
-        success(function(userHistory) {
-            $scope.payments = userHistory.payments;
-            console.log(userHistory.payments);
-            console.log("financeHistoryCtrl");
-        });
+moneyGiverApp.controller('financeHistoryCtrl', function($scope, $http) {
+	$http.get('/getFinanceHistory').
+	success(function(userHistory) {
+		$scope.payments = userHistory.payments;
+		console.log(userHistory.payments);
+		console.log("financeHistoryCtrl");
+	});
 });

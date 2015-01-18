@@ -52,6 +52,25 @@ function isAuthenticatedMobi(req, res, next) {
 	}
 }
 
+function calculateUserFinance(req, res) {
+	var userAmount = {
+		spentMoneyBadge: 0,
+		remainingMoneyBadge: 0
+	};
+	dbManager.getUserAccountByLogin(req.user.userName).then(function(userAccount) {
+		userAccount.monthlyObligations.forEach(function(entry) {
+			userAmount.spentMoneyBadge += entry.value;
+		});
+		userAccount.allPayments.forEach(function(payment) {
+			userAmount.spentMoneyBadge += payment.count;
+
+		});
+		userAmount.remainingMoneyBadge = userAccount.income - userAmount.spentMoneyBadge;
+		res.json(userAmount);
+
+	});
+}
+
 passport.serializeUser(function(user, done) {
 	done(null, user);
 });
@@ -146,9 +165,10 @@ app.get('/dialog.html', function(req, res) {
 
 app.post('/saveFirstUserPreference', function(req, res) {
 	dbManager.saveUserFinanceConfiguration(req.user.userName,
-		req.body.userIncome, req.body.userMonthlyObligations);
-
-	res.send({});
+		req.body.userIncome, req.body.userMonthlyObligations).then(function(data) {
+		console.log(data);
+		calculateUserFinance(req, res);
+	});
 });
 
 app.get('/mainPanel', isAuthenticated, function(req, res) {
@@ -197,62 +217,45 @@ app.post('/registerNewUser', function(req, res) {
 });
 
 app.get('/calculateRemainingMoneyBadge', function(req, res) {
-	var userAmount = {
-		spentMoneyBadge: 0,
-		remainingMoneyBadge: 0
-	};
-	dbManager.getUserAccountByLogin(req.user.userName).then(function(userAccount) {
-		userAccount.monthlyObligations.forEach(function(entry) {
-			userAmount.spentMoneyBadge += entry.value;
-		});
-		userAccount.allPayments.forEach(function(payment) {
-			userAmount.spentMoneyBadge += payment.count;
-
-		})
-		userAmount.remainingMoneyBadge = userAccount.income - userAmount.spentMoneyBadge;
-		res.json(userAmount);
-
-	});
+	calculateUserFinance(req, res);
 });
 
 app.post('/changePassword', function(req, res) {
-        dbManager.getUserAccountByLogin(req.user.userName).then(function(userAccount) {
-        if(userAccount.password !== req.body.password.oldPassword){
-            res.send("Stare hasło sie nie zgadza");
-        }
-        else{
-            if(req.body.password.newPassword !== req.body.password.newPasswordSecond){
-                res.send("Nowe hasła są różne!");
-            }
-            else{
-                dbManager.updatePassword(req.user.userName, req.body.password.newPassword).then(function(){
-                    res.send("Hasło zmienione!");
-                });
-            }
-        }
-    });
+	dbManager.getUserAccountByLogin(req.user.userName).then(function(userAccount) {
+		if (userAccount.password !== req.body.password.oldPassword) {
+			res.send("Stare hasło sie nie zgadza");
+		} else {
+			if (req.body.password.newPassword !== req.body.password.newPasswordSecond) {
+				res.send("Nowe hasła są różne!");
+			} else {
+				dbManager.updatePassword(req.user.userName, req.body.password.newPassword).then(function() {
+					res.send("Hasło zmienione!");
+				});
+			}
+		}
+	});
 });
 
-app.get('/getAccountSetting', function(req, res){
-    dbManager.getUserAccountByLogin(req.user.userName).then(function(userAccount) {
-        var userFinance = {
-            monthlyObligations: userAccount.monthlyObligations,
-            income: userAccount.income
-        };
-        res.json(userFinance);
-    });
+app.get('/getAccountSetting', function(req, res) {
+	dbManager.getUserAccountByLogin(req.user.userName).then(function(userAccount) {
+		var userFinance = {
+			monthlyObligations: userAccount.monthlyObligations,
+			income: userAccount.income
+		};
+		res.json(userFinance);
+	});
 });
 
-app.post('/updateIncome', function(req, res){
-    dbManager.updateIncome(req.user.userName, req.body.newIncome).then(function(){
-        res.send("Przychód zmieniony! Twój obecny zarobek to : " + req.body.newIncome);
-    });
+app.post('/updateIncome', function(req, res) {
+	dbManager.updateIncome(req.user.userName, req.body.newIncome).then(function() {
+		res.send("Przychód zmieniony! Twój obecny zarobek to : " + req.body.newIncome);
+	});
 });
 
-app.post('/updateObligations', function(req, res){
-    dbManager.updateObligations(req.user.userName, req.body.obligations).then(function(){
-        res.send("Miesięczne wydatki zostały zaktualizowane !");
-    });
+app.post('/updateObligations', function(req, res) {
+	dbManager.updateObligations(req.user.userName, req.body.obligations).then(function() {
+		res.send("Miesięczne wydatki zostały zaktualizowane !");
+	});
 });
 
 app.post("/addUserNewPayments", function(req, res) {
@@ -262,11 +265,11 @@ httpServer.listen(port, function() {
 	console.log('Express server listening on port ' + port);
 });
 
-app.get('/getFinanceHistory', function(req, res){
-    dbManager.getUserAccountByLogin(req.user.userName).then(function(userAccount) {
-        var userHistory = {
-            payments: userAccount["allPayments"],
-        };
-        res.json(userHistory);
-    });
+app.get('/getFinanceHistory', function(req, res) {
+	dbManager.getUserAccountByLogin(req.user.userName).then(function(userAccount) {
+		var userHistory = {
+			payments: userAccount["allPayments"],
+		};
+		res.json(userHistory);
+	});
 });

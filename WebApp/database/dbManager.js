@@ -123,6 +123,7 @@ exports.findUserPassword = findUserPassword;
 
 var saveUserFinanceConfiguration = function(userName, userIncome, userMonthlyObligations) {
 	var collection = db.get('userAccount');
+	var deferred = Q.defer();
 
 	getUserAccountByLogin(userName).then(function(userAccount) {
 		userAccount.firstLogin = false;
@@ -136,8 +137,13 @@ var saveUserFinanceConfiguration = function(userName, userIncome, userMonthlyObl
 			"userName": userName
 		}, userAccount, function(err, item) {
 			console.log(item);
+			deferred.resolve({
+				"availableFunds": userAccount.availableFunds,
+				"userExpenses": userAccount.userExpenses
+			});
 		})
 	});
+	return deferred.promise;
 }
 exports.saveUserFinanceConfiguration = saveUserFinanceConfiguration;
 
@@ -145,7 +151,7 @@ var saveNewUserPayments = function(newPayments, userName) {
 	var collection = db.get('userAccount');
 
 	getUserAccountByLogin(userName).then(function(userAccount) {
-		newPayments.forEach(function(payment){
+		newPayments.forEach(function(payment) {
 			setTimeInformation(payment);
 			userAccount["allPayments"].push(payment);
 			userAccount.availableFunds -= payment.count;
@@ -162,68 +168,67 @@ var saveNewUserPayments = function(newPayments, userName) {
 exports.saveNewUserPayments = saveNewUserPayments;
 
 var updatePassword = function(userName, password) {
-    var deferred = Q.defer();
-    var collection = db.get('userAccount');
+	var deferred = Q.defer();
+	var collection = db.get('userAccount');
 
-    getUserAccountByLogin(userName).then(function(userAccount) {
-        userAccount.password = password;
-        collection.update({
-            "userName": userName
-        }, userAccount, function(err) {
-            if (err) {
-                deferred.reject();
+	getUserAccountByLogin(userName).then(function(userAccount) {
+		userAccount.password = password;
+		collection.update({
+			"userName": userName
+		}, userAccount, function(err) {
+			if (err) {
+				deferred.reject();
 
-            } else {
-                deferred.resolve();
-            }
-        });
-    });
-    return deferred.promise;
+			} else {
+				deferred.resolve();
+			}
+		});
+	});
+	return deferred.promise;
 }
 
 exports.updatePassword = updatePassword;
 
 var updateIncome = function(userName, newIncome) {
-    var deferred = Q.defer();
-    var collection = db.get('userAccount');
+	var deferred = Q.defer();
+	var collection = db.get('userAccount');
 
-    getUserAccountByLogin(userName).then(function(userAccount) {
-        userAccount.income = newIncome;
-        collection.update({
-            "userName": userName
-        }, userAccount, function(err) {
-            if (err) {
-                deferred.reject();
+	getUserAccountByLogin(userName).then(function(userAccount) {
+		userAccount.income = newIncome;
+		collection.update({
+			"userName": userName
+		}, userAccount, function(err) {
+			if (err) {
+				deferred.reject();
 
-            } else {
-                deferred.resolve();
-            }
-        });
-    });
-    return deferred.promise;
+			} else {
+				deferred.resolve();
+			}
+		});
+	});
+	return deferred.promise;
 }
 
 exports.updateIncome = updateIncome;
 
 var updateObligations = function(userName, obligations) {
-    var deferred = Q.defer();
-    var collection = db.get('userAccount');
+	var deferred = Q.defer();
+	var collection = db.get('userAccount');
 
-    getUserAccountByLogin(userName).then(function(userAccount) {
-        userAccount.monthlyObligations = obligations;
-        collection.update({
-            "userName": userName
-        }, userAccount, function(err) {
-            if (err) {
-                deferred.reject();
+	getUserAccountByLogin(userName).then(function(userAccount) {
+		userAccount.monthlyObligations = obligations;
+		collection.update({
+			"userName": userName
+		}, userAccount, function(err) {
+			if (err) {
+				deferred.reject();
 
-            } else {
-                deferred.resolve();
-            }
-        });
-    });
-    return deferred.promise;
+			} else {
+				deferred.resolve();
+			}
+		});
+	});
+	return deferred.promise;
 }
 
 exports.updateObligations = updateObligations;
-
