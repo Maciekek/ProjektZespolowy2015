@@ -160,6 +160,15 @@ $http.get('/getFinanceHistory').
         success(function(userHistory) {
             $scope.payments = userHistory.payments;
             console.log(userHistory.payments);
-            console.log("financeHistoryCtrl");
+           console.log("financeHistoryCtrl");
+   			var monthNames = [ "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December" ];
+
+            for (var key in userHistory.payments) {
+   					if (userHistory.payments.hasOwnProperty(key)) {
+         				console.log("Key is " + key + ", value is" + monthNames[userHistory.payments[key].paymentMonth-1]);
+    }
+
+}
         });
 });
