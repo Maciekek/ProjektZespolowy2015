@@ -41,7 +41,7 @@
                 <input type="number" class="form-control" data-ng-model="obligation.value"  id="newAmount" placeholder="Nowa Kwota">
             </div>
             <div class="btn-group">
-  <button type="button" id="saveNewAmount" type="submit" class="btn btn-primary" data-ng-click="updateObligations()" data-toggle="modal" data-target="#myModal">Zmień</button>
+  <button id="saveNewAmount" type="submit" class="btn btn-primary" data-ng-click="updateObligations()" data-toggle="modal" data-target="#myModal">Zmień</button>
   <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
     <span class="caret"></span>
   </button>
@@ -57,6 +57,9 @@
 </div>
 </div>
 </div>
+    <div>
+        <button type="submit" class="btn btn-success btn" id="addNewObligation" data-ng-click="displayAddObligationPopup()">Dodaj</button>
+    </div>
 <!-- Tu sie szablon konczy. Takie wszystkie wydatki razem musze być okalane przez jednego <div class="row"> tak jak to widać tu :) -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">

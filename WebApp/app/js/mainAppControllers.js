@@ -17,6 +17,19 @@ var modalDialogSetting = function(_$modal) {
 
 };
 
+var addObligationPopup = function(_$modal) {
+    var modalInstance = _$modal.open({
+        templateUrl: '../partials/addObligation.html',
+        controller: 'addNewObligationsCtrl',
+        resolve: {
+            items: function() {
+                return;
+            }
+        }
+    });
+
+};
+
 
 moneyGiverApp.factory("userFinanceFactory", function() {
 	var remainingMoneyBadge = 0,
@@ -95,6 +108,34 @@ moneyGiverApp.controller('ModalInstanceCtrl', function($scope, $http, $modalInst
 
 });
 
+moneyGiverApp.controller('addNewObligationsCtrl', function($scope, $http, $modalInstance, userFinanceFactory) {
+    console.log("addNewObligationsCtrl");
+    $scope.monthlyObligations = [{}];
+
+    $scope.save = function() {
+        $http.post('/saveNewObligations', {
+            "userMonthlyObligations": $scope.monthlyObligations
+        }).
+            success(function(userFinanceCalculated) {
+                userFinanceFactory.setFinanceData(userFinanceCalculated);
+            }).error(function() {
+                console.log("FAIL");
+            });
+
+        $modalInstance.close();
+    };
+
+    $scope.cancel = function() {
+        $modalInstance.dismiss();
+    };
+    $scope.addFields = function() {
+
+        $scope.monthlyObligations.push({});
+
+    };
+
+});
+
 moneyGiverApp.controller('addPaymentCtrl', function($scope, $http) {
 	console.log("AddPaymentCtrl");
 	$scope.newPayments = [{}];
@@ -139,7 +180,8 @@ moneyGiverApp.controller('changePasswordCtrl', function($scope, $http) {
 	}
 });
 
-moneyGiverApp.controller('accountSettingCtrl', function($scope, $http) {
+moneyGiverApp.controller('accountSettingCtrl', function($scope, $http, $modal) {
+
 
 	$http.get('/getAccountSetting').
 	success(function(userFinance) {
@@ -167,6 +209,10 @@ moneyGiverApp.controller('accountSettingCtrl', function($scope, $http) {
 			$scope.res = data;
 		});
 	}
+
+    $scope.displayAddObligationPopup = function() {
+        addObligationPopup($modal);
+    }
 
 	$scope.removeObligation = function(index) {
 		$scope.obligations.splice(index, 1);

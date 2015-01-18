@@ -258,6 +258,11 @@ app.post('/updateObligations', function(req, res) {
 	});
 });
 
+app.post("/saveNewObligations", function(req, res) {
+    console.log(req.body.userMonthlyObligations);
+    dbManager.saveNewObligations(req.user.userName, req.body.userMonthlyObligations);
+});
+
 app.post("/addUserNewPayments", function(req, res) {
 	dbManager.saveNewUserPayments(req.body.newPayments, req.user.userName);
 });
