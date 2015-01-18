@@ -232,3 +232,27 @@ var updateObligations = function(userName, obligations) {
 }
 
 exports.updateObligations = updateObligations;
+
+var saveNewObligations = function(userName, obligations) {
+    var deferred = Q.defer();
+    var collection = db.get('userAccount');
+
+    getUserAccountByLogin(userName).then(function(userAccount) {
+        obligations.forEach(function(obligation){
+            userAccount.monthlyObligations.push(obligation);
+        });
+        collection.update({
+            "userName": userName
+        }, userAccount, function(err) {
+            if (err) {
+                deferred.reject();
+
+            } else {
+                deferred.resolve();
+            }
+        });
+    });
+    return deferred.promise;
+}
+
+exports.saveNewObligations = saveNewObligations;
