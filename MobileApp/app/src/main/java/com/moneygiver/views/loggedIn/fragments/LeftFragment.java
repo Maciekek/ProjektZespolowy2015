@@ -55,15 +55,20 @@ public class LeftFragment extends android.support.v4.app.Fragment implements OnR
 
 
     private void setData() {
-        String txt = "WITAJ "+userData.getUsername() + "\nTwoje miesięczne przychody to: "+userData.getIncome();
-
+        String txt = "WITAJ "+userData.getUsername() + "\nTwoje miesięczne przychody to:\n"+userData.getIncome() +" zł";
+        double sum = 0;
 
         Iterator it = userData.getMonthly().entrySet().iterator();
+
+        if(it.hasNext()) {
+            txt += "\n\nWydatki:";
+        }
         while (it.hasNext()) {
             HashMap.Entry pairs = (HashMap.Entry) it.next();
-            txt += "\n" + pairs.getKey().toString() + ": " + pairs.getValue().toString();
+            txt += "\n" + pairs.getKey().toString() + ": " + pairs.getValue().toString()+ " zł";
+            sum+= (Double)pairs.getValue();
         }
-
+        txt += "\n\nPozostało ci: "+ (userData.getIncome() - sum)+ " zł";
         tw.setText(txt);
     }
 
