@@ -1,5 +1,6 @@
 package com.moneygiver.views.loggedIn.fragments;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +16,9 @@ import com.moneygiver.DBObjects.UserData;
 import com.moneygiver.database.DatabaseAdapter;
 import com.moneygiver.views.R;
 import com.moneygiver.views.loggedIn.SwipeLayout.LayoutObject;
+
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Created by Szymon on 2014-12-09.
@@ -45,10 +49,22 @@ public class LeftFragment extends android.support.v4.app.Fragment implements OnR
     private void getDataFromDB() {
         db = new DatabaseAdapter(getActivity().getApplicationContext());
         userData = db.getUserData();
+        userData.setMonthly(db.getMonthly());
     }
 
+
+
     private void setData() {
-        tw.setText("WITAJ "+userData.getUsername() + "\nTwoje miesięczne przychody to: "+userData.getIncome());
+        String txt = "WITAJ "+userData.getUsername() + "\nTwoje miesięczne przychody to: "+userData.getIncome();
+
+
+        Iterator it = userData.getMonthly().entrySet().iterator();
+        while (it.hasNext()) {
+            HashMap.Entry pairs = (HashMap.Entry) it.next();
+            txt += "\n" + pairs.getKey().toString() + ": " + pairs.getValue().toString();
+        }
+
+        tw.setText(txt);
     }
 
     @Override

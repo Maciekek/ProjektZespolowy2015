@@ -9,6 +9,9 @@ import android.provider.ContactsContract;
 
 import com.moneygiver.DBObjects.UserData;
 
+import java.util.HashMap;
+import java.util.Iterator;
+
 /**
  * Created by Szymon on 2014-11-23.
  */
@@ -37,6 +40,23 @@ public class DatabaseAdapter {
         return db.insert(databaseHelper.TABLE_NAME_USER, null, contentValues);
     }
 
+    public void insertMonthly(UserData user) {
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+
+        Iterator it = user.getMonthly().entrySet().iterator();
+        while (it.hasNext()) {
+            HashMap.Entry pairs = (HashMap.Entry)it.next();
+            ContentValues cv = new ContentValues();
+            cv.put(databaseHelper.NAME_COLUMN, pairs.getKey().toString());
+            cv.put(databaseHelper.VALUE_COLUMN, (Double) pairs.getValue());
+            db.insert(databaseHelper.TABLE_NAME_MONTHLY, null, cv);
+
+            System.out.println(pairs.getKey() + " = " + pairs.getValue());
+
+            it.remove(); // avoids a ConcurrentModificationException
+        }
+    }
+
 
     public String getAllData() {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
@@ -61,6 +81,11 @@ public class DatabaseAdapter {
     public void clearUserData () {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         db.delete(databaseHelper.TABLE_NAME_USER, null, null);
+    }
+
+    public void cleanMonthlyData() {
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        db.delete(databaseHelper.TABLE_NAME_MONTHLY, null, null);
     }
 
     public int getLoggedIn() {
@@ -109,9 +134,28 @@ public class DatabaseAdapter {
 
     }
 
+    public HashMap<String, Double> getMonthly() {
+        HashMap<String, Double> monthly = new HashMap<String, Double>();
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        String[] columns = {DatabaseHelper.NAME_COLUMN, DatabaseHelper.VALUE_COLUMN};
+        Cursor cursor = db.query(DatabaseHelper.TABLE_NAME_MONTHLY, columns,
+                null, null,
+                null, null, null);
+
+        cursor.moveToFirst();
+        int nameIndex = cursor.getColumnIndex(DatabaseHelper.NAME_COLUMN);
+        int valueIndex = cursor.getColumnIndex(DatabaseHelper.VALUE_COLUMN);
+        while (!cursor.isAfterLast()) {
+            monthly.put(cursor.getString(nameIndex), cursor.getDouble(valueIndex));
+            cursor.moveToNext();
+        }
+        return monthly;
+
+    }
+
     static class DatabaseHelper extends SQLiteOpenHelper {
         private static final String DATABASE_NAME = "MoneyGiver_sqLite";
-        private static final int DATABASE_VERSION = 4;
+        private static final int DATABASE_VERSION = 6;
         private static final String TABLE_NAME_LOGGEDIN = "LOGGEDIN";
         private static final String UID = "_id";
         private static final String IS_LOGGED_IN_COLUMN = "isLoggedIn";
@@ -130,6 +174,16 @@ public class DatabaseAdapter {
                 " INTEGER, " + PASSWORD_COLUMN +" TEXT);";
         private static final String DROP_TABLE_USER = "DROP TABLE IF EXISTS " + TABLE_NAME_USER;
 
+        private static final String TABLE_NAME_MONTHLY = "MONTHLY";
+        private static final String NAME_COLUMN = "NAME";
+        private static final String VALUE_COLUMN = "VALUE";
+
+
+        private static final String CREATE_TABLE_MONTHLY = "CREATE TABLE " + TABLE_NAME_MONTHLY + " (" + UID
+                + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME_COLUMN + " TEXT, " + VALUE_COLUMN +
+                " REAL);";
+        private static final String DROP_TABLE_MONTHLY = "DROP TABLE IF EXISTS " + TABLE_NAME_MONTHLY;
+
         DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
             this.context = context;
@@ -139,12 +193,15 @@ public class DatabaseAdapter {
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(CREATE_TABLE_LOGGEDIN);
             db.execSQL(CREATE_TABLE_USER);
+            db.execSQL(CREATE_TABLE_MONTHLY);
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int i, int i2) {
             db.execSQL(DROP_TABLE_LOGGEDIN);
             db.execSQL(DROP_TABLE_USER);
+            db.execSQL(DROP_TABLE_MONTHLY);
+
             onCreate(db);
         }
     }

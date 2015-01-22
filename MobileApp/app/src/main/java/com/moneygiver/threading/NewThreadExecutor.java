@@ -1,7 +1,9 @@
 package com.moneygiver.threading;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 import android.widget.TextView;
 
@@ -15,7 +17,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.util.HashMap;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.moneygiver.DBObjects.UserData;
@@ -66,6 +70,7 @@ public class NewThreadExecutor implements Runnable {
                         UserData user = getJSON(sb.toString());
                         DatabaseAdapter db = new DatabaseAdapter(activity);
                         db.insertUserData(user);
+                        db.insertMonthly(user);
                         loginExecutor.LogUserIn();
                     }
                     else if(HttpResult == 403){
@@ -85,6 +90,7 @@ public class NewThreadExecutor implements Runnable {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     private UserData getJSON(String result) {
         UserData usr = new UserData();
         try {
@@ -92,6 +98,16 @@ public class NewThreadExecutor implements Runnable {
             usr.setIncome(Integer.parseInt(mainObject.getString("income")));
             usr.setUsername(mainObject.getString("userName"));
             usr.setPassword(mainObject.getString("password"));
+            JSONArray monthly = mainObject.getJSONArray("monthlyObligations");
+
+            HashMap<String, Double> monthlyMap = new HashMap<String, Double>();
+
+            for (int i = 0; i < monthly.length(); i++) {
+                JSONObject row = monthly.getJSONObject(i);
+                monthlyMap.put(row.getString("name"), row.getDouble("value"));
+            }
+
+            usr.setMonthly(monthlyMap);
         } catch (JSONException e) {
             e.printStackTrace();
         }

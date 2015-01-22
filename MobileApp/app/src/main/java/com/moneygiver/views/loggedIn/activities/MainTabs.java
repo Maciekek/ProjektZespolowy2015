@@ -41,6 +41,7 @@ public class MainTabs extends FragmentActivity implements ActionBar.TabListener{
         setContentView(R.layout.activity_tabs_main);
         db = new DatabaseAdapter(this);
         userData = db.getUserData();
+        userData.setMonthly(db.getMonthly());
 
         prepareTabs();
 

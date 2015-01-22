@@ -1,11 +1,24 @@
 package com.moneygiver.DBObjects;
 
+import java.util.HashMap;
+
 /**
  * Created by Szymon on 2015-01-17.
  */
 public class UserData {
-        private String username;
-        private int income;
+    private String username;
+    private int income;
+    private HashMap<String, Double> monthly = new HashMap<String, Double>();
+
+
+    public HashMap<String, Double> getMonthly() {
+        return monthly;
+    }
+
+    public void setMonthly(HashMap<String, Double> monthly) {
+        this.monthly = monthly;
+    }
+
 
     public String getPassword() {
         return password;

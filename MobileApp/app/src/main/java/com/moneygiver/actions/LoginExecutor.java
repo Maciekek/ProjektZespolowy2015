@@ -64,6 +64,7 @@ public class LoginExecutor {
     public void LogUserOut() {
         dbAdapter.clearLoginData();
         dbAdapter.clearUserData();
+        dbAdapter.cleanMonthlyData();
         dbAdapter.insertData(0);
         i = new Intent(activity, LoginActivity.class);
         activity.startActivity(i);
