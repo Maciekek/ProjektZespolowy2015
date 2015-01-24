@@ -63,7 +63,7 @@ function calculateUserFinance(req, res) {
 			userAmount.spentMoneyBadge += entry.value;
 		});
 		userAccount.allPayments.forEach(function(payment) {
-            if(payment.paymentMonth === date.getMonth() + 1) {
+            if(payment.paymentMonth === (date.getMonth() + 1) && payment.paymentYear === date.getFullYear()) {
                 userAmount.spentMoneyBadge += payment.count;
             }
 
