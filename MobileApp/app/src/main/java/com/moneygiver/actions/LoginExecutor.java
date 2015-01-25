@@ -23,7 +23,7 @@ public class LoginExecutor {
     private Activity activity;
     private Intent i;
 
-    private HttpRequest HttpRequest;
+    private HttpRequest httpRequest;
     private static final String LOGIN_URL = "http://178.62.111.179/userCredentials";
 
     public LoginExecutor(Context context) {
@@ -39,9 +39,9 @@ public class LoginExecutor {
         String pass = passwordET.getText().toString();
 
         String json = makeJSON(login, pass);
-        HttpRequest = new HttpRequest(LOGIN_URL, json, activity);
+        httpRequest = new HttpRequest(LOGIN_URL, json, activity);
         String credentials = makeCredentials(login, pass);
-        HttpRequest.PostLogin(this, credentials);
+        httpRequest.PostLogin(this, credentials);
     }
 
     private String makeJSON(String login, String password) {

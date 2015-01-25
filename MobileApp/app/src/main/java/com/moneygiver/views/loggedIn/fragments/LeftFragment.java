@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.moneygiver.DBObjects.UserData;
+import com.moneygiver.communication.HttpRequest;
 import com.moneygiver.database.DatabaseAdapter;
 import com.moneygiver.views.R;
 import com.moneygiver.views.loggedIn.SwipeLayout.LayoutObject;
@@ -28,13 +29,14 @@ public class LeftFragment extends android.support.v4.app.Fragment implements OnR
     private UserData userData;
     private DatabaseAdapter db;
     private TextView tw;
+    private static final String LOGIN_URL = "http://178.62.111.179/userCredentials";
+    private HttpRequest httpRequest;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.activity_left, container,false);
-
-
     }
 
     @Override
@@ -43,10 +45,10 @@ public class LeftFragment extends android.support.v4.app.Fragment implements OnR
 
         tw = (TextView)getView().findViewById(R.id.data);
         getDataFromDB();
-        setData();
+        setData(false);
     }
 
-    private void getDataFromDB() {
+    public void getDataFromDB() {
         db = new DatabaseAdapter(getActivity().getApplicationContext());
         userData = db.getUserData();
         userData.setMonthly(db.getMonthly());
@@ -54,7 +56,8 @@ public class LeftFragment extends android.support.v4.app.Fragment implements OnR
 
 
 
-    private void setData() {
+    public void setData(boolean fresh) {
+        Context context = getActivity().getApplicationContext();
         String txt = "WITAJ "+userData.getUsername() + "\nTwoje miesięczne przychody to:\n"+userData.getIncome() +" zł";
         double sum = 0;
 
@@ -70,6 +73,30 @@ public class LeftFragment extends android.support.v4.app.Fragment implements OnR
         }
         txt += "\n\nPozostało ci: "+ (userData.getIncome() - sum)+ " zł";
         tw.setText(txt);
+        if(fresh) {
+            Toast.makeText(context, "Odświeżono!", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private String makeJSON(String login, String password) {
+        return "{\"username\": \"" +login +
+                "\", \"password\":\"" + password +"\"}";
+    }
+
+    private String makeCredentials(String login, String pass) {
+        return login+":"+pass;
+    }
+
+
+    private void refresh() {
+        String login = userData.getUsername();
+        String pass = userData.getPassword();
+
+        String json = makeJSON(login, pass);
+
+        httpRequest = new HttpRequest(LOGIN_URL, json, getActivity().getApplicationContext());
+        String credentials = makeCredentials(login, pass);
+        httpRequest.postRefresh(this, credentials);
     }
 
     @Override
@@ -78,9 +105,8 @@ public class LeftFragment extends android.support.v4.app.Fragment implements OnR
             @Override
             public void run() {
                 swipeLayout.setRefreshing(false);
-                Context context = getActivity().getApplicationContext();
-                Toast.makeText(context, "Odświeżono!", Toast.LENGTH_LONG).show();
+                refresh();
             }
-        }, 2000);
+        }, 3000);
     }
 }
