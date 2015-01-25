@@ -57,12 +57,15 @@ function calculateUserFinance(req, res) {
 		spentMoneyBadge: 0,
 		remainingMoneyBadge: 0
 	};
+    var date = new Date();
 	dbManager.getUserAccountByLogin(req.user.userName).then(function(userAccount) {
 		userAccount.monthlyObligations.forEach(function(entry) {
 			userAmount.spentMoneyBadge += entry.value;
 		});
 		userAccount.allPayments.forEach(function(payment) {
-			userAmount.spentMoneyBadge += payment.count;
+            if(payment.paymentMonth === (date.getMonth() + 1) && payment.paymentYear === date.getFullYear()) {
+                userAmount.spentMoneyBadge += payment.count;
+            }
 
 		});
 		userAmount.remainingMoneyBadge = userAccount.income - userAmount.spentMoneyBadge;
