@@ -28,7 +28,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" id="brand" ng-href="#">
+                        <a class="navbar-brand" id="brand" href="#/">
                             <img class=".hidden-xs img-circle" id="malelogo" src="img/logo_mg_male.png">MoneyGiver
                         </a>
                         <p class="navbar-text">Zalogowany jako: {{userLogin}}</p>
@@ -59,7 +59,7 @@
 
         <div id="sidebar" class="sidebar-offcanvas col-md-3">
             <div class="col-md-12">
-                <img src="img/logo_mg_duze.png" class="img-rounded">
+                <a href="#/"><img src="img/logo_mg_duze.png" class="img-rounded"></a>
                  <ul class="nav nav-pills nav-stacked" id="leftSectionBars">
                 <li class="active"><a id="welcomer" class="text-center">Witaj, <span class="badge">{{userLogin}}</span></a></li>
             </ul>
@@ -85,7 +85,7 @@
         </div>
         <div id="right" class="sidebar-offcanvas col-md-3">
             <div class="col-md-12">
-                <img src="img/logo_mg_duze.png" class="img-rounded">
+                <a href="#/"><img src="img/logo_mg_duze.png" class="img-rounded" id="bord"></a>
                 <ul class="nav nav-pills nav-stacked" role="tablist">
                     <li class="active"><a id="remainingMoneyBadge">Pozostało Ci, <span class="badge">{{remainingMoneyBadge}} PLN</span></a></li>
                     <li class="active"><a id="spentMoneyBadge">Wydałeś już , <span class="badge">{{spentMoneyBadge}} PLN</span></a></li>
