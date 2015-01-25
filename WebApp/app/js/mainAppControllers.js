@@ -232,6 +232,8 @@ moneyGiverApp.controller('financeHistoryCtrl', function($scope, $http) {
 	$http.get('/getFinanceHistory').
 	success(function(userHistory) {
 		$scope.payments = userHistory.payments;
+		$scope.predicate     = 'name'; // set the default sort type
+  		$scope.reverse  = false;  // set the default sort order
 		console.log(userHistory.payments);
 		console.log("financeHistoryCtrl");
 	});

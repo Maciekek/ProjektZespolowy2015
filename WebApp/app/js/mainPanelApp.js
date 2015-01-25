@@ -12,7 +12,7 @@ moneyGiverApp.config(['$routeProvider',
 	function($routeProvider) {
 		$routeProvider.
 		when('/', {
-			templateUrl: 'partials/centerPanelMainPage.html',
+			templateUrl: 'partials/financeHistory.html',
 		}).
 		when('/addPayment', {
 			templateUrl: 'partials/addPayment.html',
