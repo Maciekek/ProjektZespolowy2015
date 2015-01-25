@@ -23,6 +23,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.moneygiver.DBObjects.UserData;
+import com.moneygiver.views.loggedIn.fragments.LeftFragment;
 
 
 /**
@@ -33,17 +34,27 @@ public class NewThreadExecutor implements Runnable {
     private HttpURLConnection connection;
     private String JSONObject;
     private StringBuilder sb = new StringBuilder();
-    private Activity activity;
+    private Context context;
     private Handler handler;
-    private LoginExecutor loginExecutor;
+    private LoginExecutor loginExecutor = null;
+    private LeftFragment leftFragment = null;
 
 
     public NewThreadExecutor(HttpURLConnection connection, String JSONObject, Context context, LoginExecutor loginExecutor) {
         this.connection = connection;
         this.JSONObject = JSONObject;
-        this.activity = (Activity) context;
+        this.context = context;
         this.handler = new Handler();
         this.loginExecutor = loginExecutor;
+    }
+
+    public NewThreadExecutor(HttpURLConnection connection, String JSONObject, Context context, LeftFragment leftFragment) {
+        this.connection = connection;
+        this.JSONObject = JSONObject;
+        this.handler = new Handler();
+        this.context = context;
+        this.leftFragment = leftFragment;
+
     }
 
     @Override
@@ -68,13 +79,23 @@ public class NewThreadExecutor implements Runnable {
                     if(HttpResult == 200) {
                    //    Message.message(activity, sb.toString());
                         UserData user = getJSON(sb.toString());
-                        DatabaseAdapter db = new DatabaseAdapter(activity);
+                        DatabaseAdapter db = new DatabaseAdapter(context);
+                        if(leftFragment != null) {
+                            db.clearUserData();
+                            db.cleanMonthlyData();
+                        }
                         db.insertUserData(user);
                         db.insertMonthly(user);
-                        loginExecutor.LogUserIn();
+                        if(loginExecutor != null) {
+                            loginExecutor.LogUserIn();
+                        }
+                        if(leftFragment != null) {
+                            leftFragment.getDataFromDB();
+                            leftFragment.setData(true);
+                        }
                     }
                     else if(HttpResult == 403){
-                        Message.message(activity, activity.getString(R.string.incorrect_credentials));
+                        Message.message(context, context.getString(R.string.incorrect_credentials));
                     }
                 }
             });
@@ -82,7 +103,7 @@ public class NewThreadExecutor implements Runnable {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    Message.message(activity, activity.getString(R.string.login_error));
+                    Message.message(context, context.getString(R.string.login_error));
                 };
             });
             }catch (IOException e) {
