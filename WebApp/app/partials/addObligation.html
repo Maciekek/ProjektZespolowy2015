@@ -1,0 +1,34 @@
+<div id="dialog">
+    <div id="firstLoginForm">
+        <div>
+            <p class="welcomeText">Tutaj możesz dodać nowe miesięczne wydatki.
+            </p>
+        </div>
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <div class="well">
+
+                    <div data-ng-repeat="monthlyObligation in monthlyObligations">
+                        <p>Zobowiązanie nr: {{$index+1}}</p>
+                        <input type="text" data-ng-model="monthlyObligation.name" class="form-control" id="monthlyObligationsname" placeholder="Nazwa">
+                        <input type="number" data-ng-model="monthlyObligation.value" class="form-control" id="monthlyObligations" placeholder="Kwota">
+                        <p></p>
+
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="form-group">
+
+
+    </div>
+    <button type="button" id="addFields" class="btn btn-success btn-xs" data-ng-click="addFields()"><span class="glyphicon glyphicon-plus" aria-hidden="true" ></span></button>
+    <div class="form-group" id="dialogButtons">
+        <div class="col-xs-11">
+            <button ng-click="cancel()" id="cancel" class="btn btn-primary pull-right">Zamknij</button>
+            <button ng-click="save()" class="btn btn-primary pull-right">Zapisz</button>
+        </div>
+    </div>
+    </form>
+</div>
+</div>
