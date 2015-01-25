@@ -155,20 +155,11 @@ moneyGiverApp.controller('accountSettingCtrl', function($scope, $http) {
 });
 
 
-moneyGiverApp.controller('financeHistoryCtrl', function($scope, $http){
-$http.get('/getFinanceHistory').
-        success(function(userHistory) {
-            $scope.payments = userHistory.payments;
-            console.log(userHistory.payments);
-           console.log("financeHistoryCtrl");
-   			var monthNames = [ "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December" ];
-
-            for (var key in userHistory.payments) {
-   					if (userHistory.payments.hasOwnProperty(key)) {
-         				console.log("Key is " + key + ", value is" + monthNames[userHistory.payments[key].paymentMonth-1]);
-    }
-
-}
-        });
+moneyGiverApp.controller('financeHistoryCtrl', function($scope, $http) {
+	$http.get('/getFinanceHistory').
+	success(function(userHistory) {
+		$scope.payments = userHistory.payments;
+		console.log(userHistory.payments);
+		console.log("financeHistoryCtrl");
+	});
 });

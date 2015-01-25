@@ -37,8 +37,8 @@ body,html,.row-offcanvas {
 
 #sidebar {
   width: inherit;
-  min-width: 220px;
-  max-width: 220px;
+  min-width: 270px;
+  max-width: 270px;
   background-color:#ecf0f1;
   float: left;
   height:100%;
@@ -96,7 +96,7 @@ body,html,.row-offcanvas {
 
 #right{
     float: right;
-    width: 220px;
+    width: 270px;
     height: 100%;
     background-color: #ecf0f1;
     overflow-y:auto;
@@ -234,3 +234,6 @@ border-color: #8e44ad;
   padding-top: 14px;
 }
 
+#logout{
+  width: 210px;
+}
